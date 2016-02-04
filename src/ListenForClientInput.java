@@ -6,6 +6,8 @@ public class ListenForClientInput extends Thread {
 
     private ClientConnectionData connData;
 
+    private boolean listen = true;
+
     /**
      * Creates a new thread to listen for input being sent to the
      * server from a client
@@ -18,6 +20,21 @@ public class ListenForClientInput extends Thread {
 
     @Override
     public void run() {
+
+        /*
+         * continuously listen for input from the client
+         */
+        while (listen) {
+            /*
+                TODO how will different instructions be recognized so they can be
+                executed differently?
+
+                Easiest way is probably to have the client send an instruction code from
+                a static variable preceding any required data that is needed for
+                the instruction to be executed.
+             */
+        }
+
 
     }
 }
