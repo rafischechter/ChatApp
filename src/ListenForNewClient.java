@@ -10,7 +10,7 @@ public class ListenForNewClient extends Thread {
 
     private boolean lookForNewClients = true;
 
-    ListenForNewClient(Server server) {
+    public ListenForNewClient(Server server) {
         this.server = server;
     }
 
