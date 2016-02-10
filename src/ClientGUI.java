@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 
@@ -7,55 +8,60 @@ import java.awt.*;
  */
 public class ClientGUI extends JFrame {
 
+    private JPanel mainPanel = new JPanel();
+    private JPanel chatPanel = new JPanel();
+    private JPanel sendMsgPanel = new JPanel();
+
+    private JPanel roomsPanel = new JPanel();
+    private JPanel roomTabsPanel = new JPanel();
+    private JPanel roomInfoPanel = new JPanel();
+    private JButton usersButton = new JButton("Users");
+    private JButton roomsButton = new JButton("Rooms");
+    private JLabel roomInfoLabel = new JLabel("room info");
+
+    private JLabel userInfoLabel = new JLabel("user information goes here");
+    private JTextArea chatMessagesArea = new JTextArea(50, 100);
+    private JTextField chatText = new JTextField();
+    private JButton sendButton = new JButton("Send");
+
+
     public ClientGUI(){
         createAndShowGUI();
 
     }
 
-    private static void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame();
-        frame.setTitle("Client Demo");
-        frame.setPreferredSize(new Dimension(1080,760));
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private void createAndShowGUI() {
 
-        //JPanel rightPanel = new JPanel();
+        sendMsgPanel.setLayout(new BorderLayout());
+        sendMsgPanel.add(chatText, BorderLayout.CENTER);
+        sendMsgPanel.add(sendButton, BorderLayout.EAST);
 
-        //JPanel leftPanel = new JPanel();
+        chatPanel.setLayout(new BorderLayout());
+        chatPanel.add(userInfoLabel, BorderLayout.NORTH);
+        chatPanel.add(chatMessagesArea, BorderLayout.CENTER);
+        chatPanel.add(sendMsgPanel, BorderLayout.SOUTH);
 
-        //JPanel topPanel = new JPanel();
+        roomTabsPanel.add(usersButton);
+        roomTabsPanel.add(roomsButton);
 
-        JPanel bottomPanel = new JPanel(new FlowLayout());
-        bottomPanel.setBackground(Color.red);
+        roomInfoPanel.add(roomInfoLabel);
+
+        roomsPanel.setLayout(new GridLayout(0, 1));
+        roomsPanel.add(roomTabsPanel);
+        roomsPanel.add(roomInfoPanel);
+
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(chatPanel, BorderLayout.WEST);
+        mainPanel.add(roomsPanel);
+
+        this.add(mainPanel);
+        this.pack();
+        //this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setVisible(true);
 
 
-        JTextField textField = new JTextField(50);
-
-        JButton sendMessage = new JButton("Send");
-
-        JTextArea messageArea = new JTextArea();
-
-        //Create the menu bar.
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setOpaque(true);
-        menuBar.setPreferredSize(new Dimension(1080, 20));
-
-
-        bottomPanel.add(textField);
-        bottomPanel.add(sendMessage);
-
-        frame.add(bottomPanel, BorderLayout.SOUTH);
-
-        frame.setJMenuBar(menuBar);
-        frame.getContentPane();
-
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
     }
-
-
-
 
 }

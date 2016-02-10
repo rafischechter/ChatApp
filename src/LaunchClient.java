@@ -3,7 +3,7 @@
  */
 public class LaunchClient {
     public static void main(String[] args) {
-        //new ClientGUI();
-        new Client();
+        new ClientGUI();
+        //new Client();
     }
 }

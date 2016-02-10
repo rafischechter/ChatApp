@@ -15,13 +15,13 @@ public class Client{
 
     public Client(){
         try {
-            run();
+            runClient();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void run() throws IOException {
+    public void runClient() throws IOException {
         connectToServer();
         setupStreams();
         maintainConnection();
@@ -69,7 +69,13 @@ public class Client{
      */
     public void maintainConnection(){
         while(true){
-
+            try {
+                Message m = (Message) inputFromServer.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
