@@ -1,30 +1,32 @@
+import javax.swing.*;
+
 /**
  * Holds user information
  */
 public class User {
 
-    int id;
-    String ScreenName;
-    String email;
-    String userName;
-    String password;
-    //Image
+    private int userID;
+    private String screenName;
+    private String email;
+    private String userName;
+    private String password;
+    private ImageIcon profilePhoto;
 
 
     public User(int id, String screenName, String email, String userName, String password) {
-        this.id = id;
-        ScreenName = screenName;
+        this.userID = id;
+        this.screenName = screenName;
         this.email = email;
         this.userName = userName;
         this.password = password;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.userID = id;
     }
 
     public void setScreenName(String screenName) {
-        ScreenName = screenName;
+        screenName = screenName;
     }
 
     public void setEmail(String email) {
@@ -40,11 +42,11 @@ public class User {
     }
 
     public int getId() {
-        return id;
+        return userID;
     }
 
     public String getScreenName() {
-        return ScreenName;
+        return screenName;
     }
 
     public String getEmail() {

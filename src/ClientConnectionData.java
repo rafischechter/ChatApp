@@ -1,3 +1,4 @@
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -5,11 +6,13 @@ import java.net.Socket;
  */
 public class ClientConnectionData {
 
-    public ClientConnectionData(Socket socket) {
+
+
+    public ClientConnectionData() {
+
     }
 
-    /**
-     * Sets up input and output streams
-     */
-    public void setupStreams(){}
+
+
+
 }
