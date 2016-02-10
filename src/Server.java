@@ -21,15 +21,20 @@ public class Server {
      * constructor
      */
     Server() {
+        startServer();
+        startListeningForNewClients();
+
+    }
+
+    /**
+     * starts up the server by creating the socket
+     */
+    private void startServer() {
         try {
             serverSocket = new ServerSocket(PORT, BACKLOG);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        startListeningForNewClients();
-
-    }
+        }    }
 
     /**
      * Starts a thread that listens for new clients
