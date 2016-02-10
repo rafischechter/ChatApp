@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Server {
 
-    public static final int PORT = 22222;
+    public static final int PORT = 8000;
     public static final int BACKLOG = 15;
 
     private ServerSocket serverSocket;
@@ -57,3 +57,4 @@ public class Server {
     }
 
 }
+

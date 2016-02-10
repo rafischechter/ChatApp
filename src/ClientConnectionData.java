@@ -26,7 +26,7 @@ public class ClientConnectionData {
     /**
      * Sets up input and output streams
      */
-    private void setupDataStreams(){
+    private void setupDataStreams() {
         try {
             this.input = new DataInputStream(socket.getInputStream());
             this.output = new DataOutputStream(socket.getOutputStream());
@@ -43,3 +43,4 @@ public class ClientConnectionData {
         new ListenForClientInput(this).start();
     }
 }
+
