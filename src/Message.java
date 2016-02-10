@@ -53,4 +53,28 @@ public class Message {
         return dateFormat.format(getCurrentDate());
     }
 
+    /**
+     * checks if the message sent is text
+     * @return whether the message is text
+     */
+    public boolean isText() {
+        return this.messageText != null;
+    }
+
+    /**
+     * checks if the message sent is an image
+     * @return whether the message is an image
+     */
+    public boolean isImage() {
+        return this.img != null;
+    }
+
+    /**
+     * checks if the message sent is a file
+     * @return whether the message is a file
+     */
+    public boolean isFile() {
+        return this.file != null;
+    }
+
 }
