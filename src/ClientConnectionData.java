@@ -17,14 +17,14 @@ public class ClientConnectionData {
      */
     public ClientConnectionData(Socket socket) {
         this.socket = socket;
-        setupDataStreams();
+        setupStreams();
         startListeningForInputFromClient();
     }
 
     /**
      * Sets up input and output streams
      */
-    private void setupDataStreams() {
+    private void setupStreams() {
         try {
             this.input = new ObjectInputStream(socket.getInputStream());
             this.output = new ObjectOutputStream(socket.getOutputStream());
