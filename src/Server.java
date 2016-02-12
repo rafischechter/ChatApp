@@ -10,6 +10,7 @@ import java.util.List;
 public class Server {
 
     class ActionCodes {
+        //todo is it better to use an enum?
         public static final int NEW_MESSAGE = 1;
         public static final int NEW_CHATROOM= 2;
     }

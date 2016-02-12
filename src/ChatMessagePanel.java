@@ -15,11 +15,17 @@ public class ChatMessagePanel extends JPanel{
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        /**
+         * checks if there is any text in the message
+         */
         if (message.hasText()) {
             messageText.setText(message.getMessageText());
             this.add(messageText);
         }
 
+        /**
+         * checks if there is an image being sent as part of the message
+         */
         if (message.hasImage()) {
             image.setIcon(message.getImage());
             this.add(image);

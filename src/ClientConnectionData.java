@@ -80,6 +80,14 @@ public class ClientConnectionData {
         return message;
     }
 
+    /**
+     * gets the action code from the client to tell the server what
+     * action it wants to perform
+     *
+     * (Codes are found in the Server.ActionCodes class)
+     *
+     * @return the code of the action the client wants to perform
+     */
     public int getActionCodeFromClient() {
 
         int actionCode = -1;
