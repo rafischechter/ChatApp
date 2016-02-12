@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 /**
@@ -68,23 +69,6 @@ public class ClientGUI extends JFrame {
         mainPanel.add(chatPanel, BorderLayout.WEST);
         mainPanel.add(roomsPanel);
 
-        /**
-         * testing
-         */
-        Message m1 = new Message();
-        m1.setMessageText("Hello");
-
-        Message m2 = new Message();
-        m2.setMessageText("Hi");
-
-        Message m3 = new Message();
-        m3.setMessageText("me");
-        m3.setImage(new ImageIcon("C:/Users/Yitzi/Dropbox/pic.jpg"));
-
-        addMessage(m1);
-        addMessage(m2);
-        addMessage(m3);
-
         //sets up frame
         this.add(mainPanel);
         this.setTitle("ChatApp");
@@ -97,7 +81,17 @@ public class ClientGUI extends JFrame {
     }
 
     public void addMessage(Message m) {
-        chatMessages.add(new ChatMessageLabel(m));
+        chatMessages.add(new ChatMessagePanel(m));
+    }
+
+    public void addMessagesFromList(ArrayList<Message> messages) {
+        for(Message m : messages) {
+            chatMessages.add(new ChatMessagePanel(m));
+        }
+    }
+
+    public void removeAllMessages() {
+        chatMessages.removeAll();
     }
 
 }
