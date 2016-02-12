@@ -11,7 +11,6 @@ public class Message {
     private ImageIcon img;
     private File file;
 
-
     public String getUserID() {
         return userID;
     }
@@ -34,6 +33,22 @@ public class Message {
 
     public void setMessageText(String messageText) {
         this.messageText = messageText;
+    }
+
+    public ImageIcon getImage() {
+        return this.img;
+    }
+
+    public void setImage(ImageIcon image) {
+        this.img = image;
+    }
+
+    public File getFile() {
+        return this.file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 
     /**
