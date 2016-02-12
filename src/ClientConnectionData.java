@@ -1,6 +1,4 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -9,8 +7,8 @@ import java.net.Socket;
 public class ClientConnectionData {
 
     private Socket socket;
-    private DataInputStream input;
-    private DataOutputStream output;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
 
     /**
      * Constructor, sets up data streams for the socket
@@ -28,8 +26,8 @@ public class ClientConnectionData {
      */
     private void setupDataStreams() {
         try {
-            this.input = new DataInputStream(socket.getInputStream());
-            this.output = new DataOutputStream(socket.getOutputStream());
+            this.input = new ObjectInputStream(socket.getInputStream());
+            this.output = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }

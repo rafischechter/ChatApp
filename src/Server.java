@@ -34,7 +34,8 @@ public class Server {
             serverSocket = new ServerSocket(PORT, BACKLOG);
         } catch (IOException e) {
             e.printStackTrace();
-        }    }
+        }
+    }
 
     /**
      * Starts a thread that listens for new clients
