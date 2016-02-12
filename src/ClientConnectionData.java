@@ -40,5 +40,22 @@ public class ClientConnectionData {
     private void startListeningForInputFromClient() {
         new ListenForClientInput(this).start();
     }
+
+    /**
+     * Closes all connections and nulls their corresponding variables
+     */
+    public void closeConnections() {
+        try {
+            this.socket.close();
+            this.input.close();
+            this.output.close();
+
+            this.socket = null;
+            this.input = null;
+            this.output = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
