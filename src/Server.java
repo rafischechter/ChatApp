@@ -62,5 +62,14 @@ public class Server {
         this.clients.add(ccd);
     }
 
+    /**
+     * Processes a newly recieved message
+     * @param message New message recieved from the client
+     */
+    public void processNewMessage(Message message) {
+        //store new message
+        //alert all clients about new message
+    }
+
 }
 

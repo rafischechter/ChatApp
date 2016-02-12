@@ -18,7 +18,6 @@ public class ClientConnectionData {
     public ClientConnectionData(Socket socket) {
         this.socket = socket;
         setupStreams();
-        startListeningForInputFromClient();
     }
 
     /**
@@ -33,13 +32,7 @@ public class ClientConnectionData {
         }
     }
 
-    /**
-     * Starts a thread to continuously listen for data being
-     * sent from the client to the server
-     */
-    private void startListeningForInputFromClient() {
-        new ListenForClientInput(this).start();
-    }
+
 
     /**
      * Closes all connections and nulls their corresponding variables
@@ -56,6 +49,21 @@ public class ClientConnectionData {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gets a Message from the client
+     *
+     * @return Message sent from the client
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public Message getMessageFromInputStream() throws IOException, ClassNotFoundException {
+        return (Message) input.readObject();
+    }
+
+    public void alertServerAboutNewMessage() {
     }
 }
 

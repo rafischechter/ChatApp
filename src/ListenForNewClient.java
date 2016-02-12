@@ -37,6 +37,10 @@ public class ListenForNewClient extends Thread {
 
             //store the new ClientConnectionData in the server
             server.storeNewClientConnectionData(ccd);
+
+            //start listening for new messages from the client
+            startListeningForInputFromClient(server, ccd);
+
         }
 
     }
@@ -48,6 +52,14 @@ public class ListenForNewClient extends Thread {
      */
     private Socket getNewClientSocket() throws IOException {
         return server.getNewClientSocket();
+    }
+
+    /**
+     * Starts a thread to continuously listen for data being
+     * sent from the client to the server
+     */
+    private void startListeningForInputFromClient(Server server, ClientConnectionData ccd) {
+        new ListenForClientInput(server, ccd).start();
     }
 }
 
