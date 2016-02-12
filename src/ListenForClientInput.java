@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 /**
  * Listens and receives input from clients
  * Acts upon client instructions
@@ -30,32 +28,19 @@ public class ListenForClientInput extends Thread {
          */
         while (listen) {
 
-            Message message = null;
+            int actionCode = connData.getActionCodeFromClient();
 
-            /*
-                current code is assuming only messages will be received, otherwise there
-                needs to be a way to differentiate what the client wants to do
-             */
-            try {
-                message = connData.getMessageFromInputStream();
+            if (actionCode == Server.ActionCodes.NEW_MESSAGE) {
+                //process new message
+
+                Message message = connData.getMessageFromInputStream();
                 server.processNewMessage(message);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            }
+            else if (actionCode == Server.ActionCodes.NEW_CHATROOM) {
+                //create a new chat room
             }
 
-            /*
-                TODO how will different instructions be recognized so they can be
-                executed differently?
-
-                Easiest way is probably to have the client send an instruction code from
-                a static variable preceding any required data that is needed for
-                the instruction to be executed.
-             */
         }
-
 
     }
 }

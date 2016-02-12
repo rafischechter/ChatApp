@@ -9,6 +9,11 @@ import java.util.List;
  */
 public class Server {
 
+    class ActionCodes {
+        public static final int NEW_MESSAGE = 1;
+        public static final int NEW_CHATROOM= 2;
+    }
+
     public static final int PORT = 8000;
     public static final int BACKLOG = 15;
 
@@ -63,6 +68,8 @@ public class Server {
     }
 
     /**
+     * todo this should be in the ChatRoom class
+     *
      * Processes a newly recieved message
      * @param message New message recieved from the client
      */

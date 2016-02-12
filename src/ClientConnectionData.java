@@ -7,8 +7,10 @@ import java.net.Socket;
 public class ClientConnectionData {
 
     private Socket socket;
-    private ObjectInputStream input;
-    private ObjectOutputStream output;
+    private ObjectInputStream objectInput;
+    private ObjectOutputStream objectOutput;
+    private DataInputStream input;
+    private DataOutputStream output;
 
     /**
      * Constructor, sets up data streams for the socket
@@ -25,14 +27,15 @@ public class ClientConnectionData {
      */
     private void setupStreams() {
         try {
-            this.input = new ObjectInputStream(socket.getInputStream());
-            this.output = new ObjectOutputStream(socket.getOutputStream());
+            this.objectInput = new ObjectInputStream(socket.getInputStream());
+            this.objectOutput = new ObjectOutputStream(socket.getOutputStream());
+
+            this.input = new DataInputStream(socket.getInputStream());
+            this.output = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 
     /**
      * Closes all connections and nulls their corresponding variables
@@ -40,10 +43,14 @@ public class ClientConnectionData {
     public void closeConnections() {
         try {
             this.socket.close();
+            this.objectInput.close();
+            this.objectOutput.close();
             this.input.close();
             this.output.close();
 
             this.socket = null;
+            this.objectInput = null;
+            this.objectOutput = null;
             this.input = null;
             this.output = null;
         } catch (IOException e) {
@@ -59,11 +66,32 @@ public class ClientConnectionData {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public Message getMessageFromInputStream() throws IOException, ClassNotFoundException {
-        return (Message) input.readObject();
+    public Message getMessageFromInputStream() {
+        Message message = null;
+
+        try {
+            message = (Message) objectInput.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return message;
     }
 
-    public void alertServerAboutNewMessage() {
+    public int getActionCodeFromClient() {
+
+        int actionCode = -1;
+
+        try {
+            actionCode = input.readInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return actionCode;
     }
+
 }
 
