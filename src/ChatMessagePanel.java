@@ -5,22 +5,22 @@ import javax.swing.*;
  */
 public class ChatMessagePanel extends JPanel{
 
-    Message message;
+    private Message message;
 
-    JLabel messageText = new JLabel();
-    JLabel image = new JLabel();
+    private JLabel messageText = new JLabel();
+    private JLabel image = new JLabel();
 
     public ChatMessagePanel(Message message) {
         this.message = message;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        if (message.isText()) {
+        if (message.hasText()) {
             messageText.setText(message.getMessageText());
             this.add(messageText);
         }
 
-        if (message.isImage()) {
+        if (message.hasImage()) {
             image.setIcon(message.getImage());
             this.add(image);
         }

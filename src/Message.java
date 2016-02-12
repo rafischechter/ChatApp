@@ -72,7 +72,7 @@ public class Message {
      * checks if the message sent is text
      * @return whether the message is text
      */
-    public boolean isText() {
+    public boolean hasText() {
         return this.messageText != null;
     }
 
@@ -80,7 +80,7 @@ public class Message {
      * checks if the message sent is an image
      * @return whether the message is an image
      */
-    public boolean isImage() {
+    public boolean hasImage() {
         return this.img != null;
     }
 
@@ -88,7 +88,7 @@ public class Message {
      * checks if the message sent is a file
      * @return whether the message is a file
      */
-    public boolean isFile() {
+    public boolean hasFile() {
         return this.file != null;
     }
 
