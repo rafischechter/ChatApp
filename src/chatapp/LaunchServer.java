@@ -1,3 +1,5 @@
+package chatapp;
+
 /**
  * Launches the server instance and the GUI
  */

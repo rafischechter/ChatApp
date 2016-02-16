@@ -1,3 +1,5 @@
+package chatapp;
+
 /**
  * Listens and receives input from clients
  * Acts upon client instructions

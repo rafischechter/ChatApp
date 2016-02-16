@@ -1,3 +1,5 @@
+package chatapp;
+
 import java.util.ArrayList;
 
 /**

@@ -1,3 +1,5 @@
+package chatapp;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -59,9 +61,9 @@ public class ClientConnectionData {
     }
 
     /**
-     * Gets a Message from the client
+     * Gets a chatapp.Message from the client
      *
-     * @return Message sent from the client
+     * @return chatapp.Message sent from the client
      *
      * @throws IOException
      * @throws ClassNotFoundException
@@ -84,7 +86,7 @@ public class ClientConnectionData {
      * gets the action code from the client to tell the server what
      * action it wants to perform
      *
-     * (Codes are found in the Server.ActionCodes class)
+     * (Codes are found in the chatapp.Server.ActionCodes class)
      *
      * @return the code of the action the client wants to perform
      */

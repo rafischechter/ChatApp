@@ -1,3 +1,5 @@
+package chatapp;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -69,7 +71,7 @@ public class Server {
     }
 
     /**
-     * todo this should be in the ChatRoom class
+     * todo this should be in the chatapp.ChatRoom class
      *
      * Processes a newly recieved message
      * @param message New message recieved from the client

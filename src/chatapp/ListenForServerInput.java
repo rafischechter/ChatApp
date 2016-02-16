@@ -1,3 +1,5 @@
+package chatapp;
+
 /**
  * Used by the client to receive data from the server
  */

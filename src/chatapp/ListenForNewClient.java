@@ -1,3 +1,5 @@
+package chatapp;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -31,11 +33,11 @@ public class ListenForNewClient extends Thread {
                 e.printStackTrace();
             }
 
-            //create a new ClientConnectionData to hold the necessary fields for
+            //create a new chatapp.ClientConnectionData to hold the necessary fields for
             //getting and sending information from and to the client
             ClientConnectionData ccd = new ClientConnectionData(socket);
 
-            //store the new ClientConnectionData in the server
+            //store the new chatapp.ClientConnectionData in the server
             server.storeNewClientConnectionData(ccd);
 
             //start listening for new messages from the client
