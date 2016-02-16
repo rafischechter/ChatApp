@@ -65,9 +65,9 @@ public class Message {
      * Converts the date stamp and returns just the current time
      * @return current time
      */
-    public String getCurrentTime(){
+    public String getFormattedTimeStamp(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        return dateFormat.format(getCurrentDate());
+        return dateFormat.format(getTimeStamp());
     }
 
     /**
@@ -99,6 +99,13 @@ public class Message {
      */
     public boolean hasFile() {
         return this.file != null;
+    }
+
+    /**
+     * Removes the file attached to the message
+     */
+    public void removeFile() {
+        this.file = null;
     }
 
 }
