@@ -5,21 +5,21 @@ import java.util.ArrayList;
  */
 public class ChatRoom {
 
-    private int chatroomID;
+    private int chatRoomId;
     private String roomName;
     private String discussionTopic;
     private final int MAX_CLIENTS_ALLOWED = 10;
-    private int clientsCurrentlyInRoom;
+    private int numOfClientsCurrentlyInRoom;
     private ArrayList<Client> clientsInRoom = new ArrayList<Client>();
 
-    public ChatRoom(int chatroomID, String roomName, String discussionTopic) {
-        setChatroomID(chatroomID);
+    public ChatRoom(int chatRoomId, String roomName, String discussionTopic) {
+        setChatRoomId(chatRoomId);
         setRoomName(roomName);
         setDiscussionTopic(discussionTopic);
     }
 
-    public void setChatroomID(int chatroomID) {
-        this.chatroomID = chatroomID;
+    public void setChatRoomId(int chatRoomId) {
+        this.chatRoomId = chatRoomId;
     }
 
     public void setRoomName(String roomName) {
@@ -30,8 +30,8 @@ public class ChatRoom {
         this.discussionTopic = discussionTopic;
     }
 
-    public int getChatroomID() {
-        return chatroomID;
+    public int getChatRoomId() {
+        return chatRoomId;
     }
 
     public String getRoomName() {
@@ -46,8 +46,8 @@ public class ChatRoom {
         return MAX_CLIENTS_ALLOWED;
     }
 
-    public int getClientsCurrentlyInRoom() {
-        return clientsCurrentlyInRoom;
+    public int getNumOfClientsCurrentlyInRoom() {
+        return numOfClientsCurrentlyInRoom;
     }
 
 }
