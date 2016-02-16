@@ -75,7 +75,7 @@ public class Message {
      * @return whether the message is text
      */
     public boolean hasText() {
-        return text != null && !text.equals("");
+        return text != null && !text.trim().equals("");
     }
 
     /**
