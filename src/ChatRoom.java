@@ -8,9 +8,12 @@ public class ChatRoom {
     private int chatRoomId;
     private String roomName;
     private String discussionTopic;
+
     private final int MAX_CLIENTS_ALLOWED = 10;
     private int numOfClientsCurrentlyInRoom;
     private ArrayList<Client> clientsInRoom = new ArrayList<Client>();
+
+    private ArrayList<Message> messages = new ArrayList<Message>();
 
     public ChatRoom(int chatRoomId, String roomName, String discussionTopic) {
         setChatRoomId(chatRoomId);
@@ -48,6 +51,14 @@ public class ChatRoom {
 
     public int getNumOfClientsCurrentlyInRoom() {
         return numOfClientsCurrentlyInRoom;
+    }
+
+    public void addMessage(Message message) {
+        messages.add(message);
+    }
+
+    public void removeAllMessages() {
+        messages.clear();
     }
 
 }
