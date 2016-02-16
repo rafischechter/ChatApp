@@ -87,6 +87,13 @@ public class Message {
     }
 
     /**
+     * Removes the image attached to the message
+     */
+    public void removeImage() {
+        this.img = null;
+    }
+
+    /**
      * checks if the message sent is a file
      * @return whether the message is a file
      */
