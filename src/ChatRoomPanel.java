@@ -10,8 +10,8 @@ public class ChatRoomPanel extends JScrollPane {
     private JPanel chatMessages = new JPanel();
 
     public ChatRoomPanel() {
-        new ChatRoomPanel(chatMessages);
 
+        this.setViewportView(chatMessages);
         this.setPreferredSize(new Dimension(500,300));
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -19,10 +19,6 @@ public class ChatRoomPanel extends JScrollPane {
 
         chatMessages.setLayout(new BoxLayout(chatMessages, BoxLayout.Y_AXIS));
 
-    }
-
-    private ChatRoomPanel(JPanel chatMessages) {
-        this.chatMessages = chatMessages;
     }
 
     /**

@@ -21,8 +21,7 @@ public class ClientGUI extends JFrame {
     private JLabel roomInfoLabel = new JLabel("room info");
 
     private JLabel userInfoLabel = new JLabel("user information goes here");
-    private JPanel chatMessages = new JPanel();
-    private JScrollPane chatMessagesScrollPane = new JScrollPane(chatMessages);
+    private ChatRoomPanel chatRoomPanel = new ChatRoomPanel();
     private JTextField chatText = new JTextField();
     private JButton sendButton = new JButton("Send");
 
@@ -39,17 +38,10 @@ public class ClientGUI extends JFrame {
         sendMsgPanel.add(chatText, BorderLayout.CENTER);
         sendMsgPanel.add(sendButton, BorderLayout.EAST);
 
-        //sets up message scroll pane
-        chatMessages.setLayout(new BoxLayout(chatMessages, BoxLayout.Y_AXIS));
-        chatMessagesScrollPane.setPreferredSize(new Dimension(500,300));
-        chatMessagesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatMessagesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        chatMessagesScrollPane.getVerticalScrollBar().setUnitIncrement(4);
-
         //sets up panel where chat messages are shown
         chatPanel.setLayout(new BorderLayout());
         chatPanel.add(userInfoLabel, BorderLayout.NORTH);
-        chatPanel.add(chatMessagesScrollPane, BorderLayout.CENTER);
+        chatPanel.add(chatRoomPanel, BorderLayout.CENTER);
         chatPanel.add(sendMsgPanel, BorderLayout.SOUTH);
 
         //sets up panel for tabs to switch between viewing rooms and users

@@ -3,7 +3,7 @@
  */
 public class LaunchClient {
     public static void main(String[] args) {
-        ClientLoginDialog c = new ClientLoginDialog();
+        //ClientLoginDialog c = new ClientLoginDialog();
         new ClientGUI();
         //new Client();
     }
