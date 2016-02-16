@@ -3,7 +3,9 @@ package chatapp;
 import javax.swing.*;
 
 /**
- * Created by Yitzi on 2/11/2016.
+ * Shows the information for a single Message object
+ *
+ * Allows images and text to be shown for a single message
  */
 public class ChatMessagePanel extends JPanel{
 
@@ -21,7 +23,7 @@ public class ChatMessagePanel extends JPanel{
          * checks if there is any text in the message
          */
         if (message.hasText()) {
-            messageText.setText(message.getMessageText());
+            messageText.setText(message.getText());
             this.add(messageText);
         }
 
@@ -32,8 +34,7 @@ public class ChatMessagePanel extends JPanel{
             image.setIcon(message.getImage());
             this.add(image);
         }
+
     }
-
-
 
 }
