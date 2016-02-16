@@ -5,18 +5,18 @@ import java.util.Date;
 
 public class Message {
 
-    private String userID;
+    private String userId;
     private Date timeStamp;
     private String messageText;
     private ImageIcon img;
     private File file;
 
-    public String getUserID() {
-        return userID;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUserId(String userID) {
+        this.userId = userID;
     }
 
     public Date getTimeStamp() {
