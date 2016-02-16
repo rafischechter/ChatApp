@@ -9,7 +9,7 @@ public class Message {
 
     private String userId;
     private Date timeStamp;
-    private String messageText;
+    private String text;
     private ImageIcon img;
     private File file;
 
@@ -29,12 +29,12 @@ public class Message {
         this.timeStamp = getCurrentDate();
     }
 
-    public String getMessageText() {
-        return messageText;
+    public String getText() {
+        return text;
     }
 
-    public void setMessageText(String messageText) {
-        this.messageText = messageText;
+    public void setText(String messageText) {
+        this.text = messageText;
     }
 
     public ImageIcon getImage() {
@@ -75,7 +75,7 @@ public class Message {
      * @return whether the message is text
      */
     public boolean hasText() {
-        return this.messageText != null;
+        return this.text != null;
     }
 
     /**
