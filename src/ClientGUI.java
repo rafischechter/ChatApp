@@ -80,18 +80,6 @@ public class ClientGUI extends JFrame {
 
     }
 
-    public void addMessage(Message m) {
-        chatMessages.add(new ChatMessagePanel(m));
-    }
 
-    public void addMessagesFromList(ArrayList<Message> messages) {
-        for(Message m : messages) {
-            chatMessages.add(new ChatMessagePanel(m));
-        }
-    }
-
-    public void removeAllMessages() {
-        chatMessages.removeAll();
-    }
 
 }
