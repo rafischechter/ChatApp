@@ -20,7 +20,8 @@ public class Message_Test {
     public void testSetAndGetUserId() throws Exception {
         Message m = new Message();
         m.setUserId("5");
-        assertEquals("testing setter and getter for userId", "5", m.getUserId());
+        assertEquals("testing setter and getter for userId for positive number", "5", m.getUserId());
+        //todo should be testing using a userId obtained from an actual User object
     }
 
     /*
@@ -32,7 +33,7 @@ public class Message_Test {
     public void testSetAndGetSetText() throws Exception {
         Message m = new Message();
         m.setText("Hello World");
-        assertEquals("testing setter and getter for text", "Hello World", m.getText());
+        assertEquals("testing setter and getter for standard text", "Hello World", m.getText());
     }
 
     /*
@@ -50,13 +51,13 @@ public class Message_Test {
     @Test
     public void testHasText() throws Exception {
         Message m = new Message();
-        assertEquals("test message has no text immediately after creation", false, m.hasText());
+        assertEquals("test if message has text immediately after creation", false, m.hasText());
         m.setText("Hello World");
-        assertEquals("test message has text", true, m.hasText());
+        assertEquals("test if message has text with standard text", true, m.hasText());
         m.setText("");
-        assertEquals("test message has no text with empty string", false, m.hasText());
+        assertEquals("test if message has text when the string is  empty", false, m.hasText());
         m.setText("           ");
-        assertEquals("test message has no text with only whitespace", false, m.hasText());
+        assertEquals("test if message has text when the text is only whitespace", false, m.hasText());
 
     }
 
@@ -65,7 +66,7 @@ public class Message_Test {
         Message m = new Message();
         m.setImage(new ImageIcon());
         m.removeImage();
-        assertEquals("test remove image works", null, m.getImage());
+        assertEquals("test if remove image works", null, m.getImage());
     }
 
     @Test
@@ -74,11 +75,11 @@ public class Message_Test {
      */
     public void testHasImage() throws Exception {
         Message m = new Message();
-        assertEquals("test message has no image immediately after creation", false, m.hasImage());
+        assertEquals("test if message has an image immediately after creation", false, m.hasImage());
         m.setImage(new ImageIcon());
-        assertEquals("test message has an image after one is set", true, m.hasImage());
+        assertEquals("test if message has an image after one is set", true, m.hasImage());
         m.removeImage();
-        assertEquals("test message has no image after it is removed", false, m.hasImage());
+        assertEquals("test if message has an image after it is removed", false, m.hasImage());
     }
 
     @Test
@@ -87,11 +88,11 @@ public class Message_Test {
      */
     public void testHasFile() throws Exception {
         Message m = new Message();
-        assertEquals("test message has no file immediately after creation", false, m.hasFile());
+        assertEquals("test if message has a file immediately after creation", false, m.hasFile());
         m.setFile(new File(""));
-        assertEquals("test message has a file after one is set", true, m.hasFile());
+        assertEquals("test if message has a file after one is set", true, m.hasFile());
         m.removeFile();
-        assertEquals("test message has no file after it is removed", false, m.hasFile());
+        assertEquals("test if message has a file after it is removed", false, m.hasFile());
     }
 
     @Test
@@ -99,7 +100,7 @@ public class Message_Test {
         Message m = new Message();
         m.setFile(new File(""));
         m.removeFile();
-        assertEquals("test remove file works", null, m.getFile());
+        assertEquals("test if file variable is null after it is removed", null, m.getFile());
     }
 
 }
