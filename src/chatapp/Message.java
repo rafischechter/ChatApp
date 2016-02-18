@@ -13,6 +13,10 @@ public class Message {
     private ImageIcon img;
     private File file;
 
+    public Message() {
+        setTimeStamp();
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -25,6 +29,11 @@ public class Message {
         return timeStamp;
     }
 
+    /**
+     * Used to set the time stamp of the message.
+     *
+     * Should only be called by the class constructor upon creation
+     */
     private void setTimeStamp() {
         this.timeStamp = getCurrentDate();
     }
@@ -78,13 +87,6 @@ public class Message {
         return text != null && !text.trim().equals("");
     }
 
-    /**
-     * checks if the message sent is an image
-     * @return whether the message is an image
-     */
-    public boolean hasImage() {
-        return this.img != null;
-    }
 
     /**
      * Removes the image attached to the message
@@ -94,18 +96,27 @@ public class Message {
     }
 
     /**
-     * checks if the message sent is a file
-     * @return whether the message is a file
+     * checks if the message sent is an image
+     * @return whether the message is an image
      */
-    public boolean hasFile() {
-        return this.file != null;
+    public boolean hasImage() {
+        return this.img != null;
     }
+
 
     /**
      * Removes the file attached to the message
      */
     public void removeFile() {
         this.file = null;
+    }
+
+    /**
+     * checks if the message sent is a file
+     * @return whether the message is a file
+     */
+    public boolean hasFile() {
+        return this.file != null;
     }
 
 }
