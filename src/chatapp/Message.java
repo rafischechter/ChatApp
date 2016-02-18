@@ -32,7 +32,7 @@ public class Message {
     /**
      * Used to set the time stamp of the message.
      *
-     * Should only be called by the class constructor upon creation
+     * Should only be called by the class constructor
      */
     private void setTimeStamp() {
         this.timeStamp = getCurrentDate();
