@@ -27,8 +27,8 @@ public class ClientConnectionDialog {
         return serverAddress.getSelectedItem().toString();
     }
 
-    public String getServerPort() {
-        return serverPort.getText();
+    public int getServerPort() {
+        return Integer.parseInt(serverPort.getText());
     }
 
     public void addToSavedAddresses(String address) {
