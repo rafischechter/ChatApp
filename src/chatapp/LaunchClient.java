@@ -5,9 +5,7 @@ package chatapp;
  */
 public class LaunchClient {
     public static void main(String[] args) {
-        //chatapp.ClientLoginDialog c = new chatapp.ClientLoginDialog();
-        new ClientConnectionDialog();
-        new ClientGUI();
-        //new chatapp.Client();
+        new ClientLoginDialog();
+        new Client();
     }
 }
