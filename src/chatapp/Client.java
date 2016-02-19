@@ -1,6 +1,5 @@
 package chatapp;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -9,11 +8,12 @@ import java.net.Socket;
  */
 public class Client{
 
-    private final int PORT = 8000;
+    private int port;
     private String serverAddress;
     private Socket socket;
     private ObjectInputStream inputFromServer;
     private ObjectOutputStream outputToServer;
+    ClientConnectionDialog ccd;
 
     public Client(){
         try {
@@ -24,6 +24,7 @@ public class Client{
     }
 
     public void runClient() throws IOException {
+        getServerAddressAndPort();
         connectToServer();
         setupStreams();
         maintainConnection();
@@ -35,11 +36,12 @@ public class Client{
      * Prompt the user for the servers IP Address
      * @return servers IP Address
      */
-
+    /*
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
                 null, "Enter the servers IP address:");
     }
+    */
 
     /**
      * Sets up input and output streams
@@ -57,9 +59,8 @@ public class Client{
      * Connects client to server
      */
     public void connectToServer(){
-        serverAddress = getServerAddress();
         try {
-            socket = new Socket(serverAddress, PORT);
+            socket = new Socket(serverAddress, port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,6 +95,14 @@ public class Client{
         }
     }
 
-
+    /**
+     * Gets the server address and port from the client
+     * connection dialog
+     */
+    private void getServerAddressAndPort() {
+        ccd = new ClientConnectionDialog();
+        serverAddress = ccd.getServerAddress();
+        port = ccd.getServerPort();
+    }
 
 }
