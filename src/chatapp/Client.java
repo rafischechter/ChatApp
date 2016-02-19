@@ -25,6 +25,7 @@ public class Client{
 
     public void runClient() throws IOException {
         getServerAddressAndPort();
+        new ClientGUI();
         connectToServer();
         setupStreams();
         maintainConnection();
