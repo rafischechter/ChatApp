@@ -8,23 +8,16 @@ import java.util.Date;
 
 public class Message implements Serializable {
 
-    private String userId;
     private Date timeStamp;
     private String text;
     private ImageIcon img;
     private File file;
+    private User user;
 
     public Message() {
         setTimeStamp();
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userID) {
-        this.userId = userID;
-    }
 
     public Date getTimeStamp() {
         return timeStamp;

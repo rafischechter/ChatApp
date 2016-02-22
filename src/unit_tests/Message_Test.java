@@ -16,13 +16,6 @@ import static org.junit.Assert.*;
 public class Message_Test {
 
 
-    @Test
-    public void testSetAndGetUserId() throws Exception {
-        Message m = new Message();
-        m.setUserId("5");
-        assertEquals("testing setter and getter for userId for positive number", "5", m.getUserId());
-        //todo should be testing using a userId obtained from an actual User object
-    }
 
     /*
         The getter and setter for the timestamp can't be tested

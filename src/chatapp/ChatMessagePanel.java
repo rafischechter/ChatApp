@@ -23,7 +23,8 @@ public class ChatMessagePanel extends JPanel{
          * checks if there is any text in the message
          */
         if (message.hasText()) {
-            messageText.setText(message.getText());
+            messageText.setText(message.getFormattedTimeStamp() + " - " + message.getText());
+
             this.add(messageText);
         }
 
