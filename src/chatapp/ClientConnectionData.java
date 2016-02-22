@@ -29,11 +29,12 @@ public class ClientConnectionData {
      */
     private void setupStreams() {
         try {
-            this.objectInput = new ObjectInputStream(socket.getInputStream());
             this.objectOutput = new ObjectOutputStream(socket.getOutputStream());
+            this.objectInput = new ObjectInputStream(socket.getInputStream());
 
-            this.input = new DataInputStream(socket.getInputStream());
             this.output = new DataOutputStream(socket.getOutputStream());
+            this.input = new DataInputStream(socket.getInputStream());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,6 +102,10 @@ public class ClientConnectionData {
         }
 
         return actionCode;
+    }
+
+    public void sendMessage(Message message) throws IOException {
+        objectOutput.writeObject(message);
     }
 
 }

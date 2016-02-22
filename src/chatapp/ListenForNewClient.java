@@ -29,6 +29,7 @@ public class ListenForNewClient extends Thread {
             //get socket connecting to the new client
             try {
                 socket = getNewClientSocket();
+                System.out.println("Connected to client");
             } catch (IOException e) {
                 e.printStackTrace();
             }

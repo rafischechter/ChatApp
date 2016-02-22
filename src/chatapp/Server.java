@@ -79,6 +79,13 @@ public class Server {
     public void processNewMessage(Message message) {
         //store new message
         //alert all clients about new message
+        for (ClientConnectionData client : clients) {
+            try {
+                client.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

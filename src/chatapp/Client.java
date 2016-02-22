@@ -13,7 +13,10 @@ public class Client{
     private Socket socket;
     private ObjectInputStream inputFromServer;
     private ObjectOutputStream outputToServer;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
     ClientConnectionDialog ccd;
+    private ClientGUI clientGUI;
 
     public Client(){
         try {
@@ -25,7 +28,7 @@ public class Client{
 
     public void runClient() throws IOException {
         getServerAddressAndPort();
-        new ClientGUI();
+        clientGUI = new ClientGUI(this);
         connectToServer();
         setupStreams();
         maintainConnection();
@@ -49,11 +52,23 @@ public class Client{
      */
     public void setupStreams(){
         try {
-            inputFromServer = new ObjectInputStream(socket.getInputStream());
             outputToServer = new ObjectOutputStream(socket.getOutputStream());
+            inputFromServer = new ObjectInputStream(socket.getInputStream());
+
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            dataInputStream = new DataInputStream(socket.getInputStream());
+            System.out.println("Streams connected");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendActionCode(int code) throws IOException {
+        dataOutputStream.writeInt(code);
+    }
+
+    public void sendMessage(Message message) throws IOException {
+        outputToServer.writeObject(message);
     }
 
     /**
@@ -62,6 +77,7 @@ public class Client{
     public void connectToServer(){
         try {
             socket = new Socket(serverAddress, port);
+            System.out.println("Connected to server");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,7 +90,9 @@ public class Client{
     public void maintainConnection(){
         while(true){
             try {
-                Message m = (Message) inputFromServer.readObject();
+                Message message = (Message) inputFromServer.readObject();
+                System.out.println(message.getText());
+                clientGUI.addNewMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {

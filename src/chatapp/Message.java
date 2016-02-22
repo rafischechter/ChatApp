@@ -2,10 +2,11 @@ package chatapp;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Message {
+public class Message implements Serializable {
 
     private String userId;
     private Date timeStamp;

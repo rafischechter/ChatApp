@@ -30,6 +30,8 @@ public class ChatRoomPanel extends JScrollPane {
      */
     public void addMessage(Message message) {
         chatMessages.add(new ChatMessagePanel(message));
+        this.paintImmediately(0, 0, this.getWidth(), this.getHeight());
+        this.validate();
     }
 
     /**

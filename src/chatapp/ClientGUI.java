@@ -2,12 +2,17 @@ package chatapp;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 /**
  * The client user interface
  */
 public class ClientGUI extends JFrame {
+
+    private Client client;
 
     private JPanel mainPanel = new JPanel();
     private JPanel chatPanel = new JPanel();
@@ -24,9 +29,11 @@ public class ClientGUI extends JFrame {
     private ChatRoomPanel chatRoomPanel = new ChatRoomPanel();
     private JTextField chatText = new JTextField();
     private JButton sendButton = new JButton("Send");
+    Message m1;
 
 
-    public ClientGUI(){
+    public ClientGUI(Client client) {
+        this.client = client;
         createAndShowGUI();
 
     }
@@ -70,7 +77,28 @@ public class ClientGUI extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
 
+        //click listener for send buttons
+        sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message message = new Message();
+                message.setText(chatText.getText());
+                try {
+                    client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
+                    client.sendMessage(message);
+                    chatText.setText("");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
     }
+
+    public void addNewMessage(Message message) {
+        chatRoomPanel.addMessage(message);
+    }
+
 
 
 

@@ -5,6 +5,7 @@ package chatapp;
  */
 public class LaunchServer {
     public static void main(String[] args) {
-        new ServerGUI();
+        new Server();
+        //new ServerGUI();
     }
 }
