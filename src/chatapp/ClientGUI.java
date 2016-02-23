@@ -114,6 +114,10 @@ public class ClientGUI extends JFrame {
         chatRoomPanel.addMessage(message);
     }
 
+    public void updateUserInfo(String userName) {
+        userInfoLabel.setText(userName);
+    }
+
 
 
 
