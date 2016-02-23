@@ -29,7 +29,6 @@ public class ClientGUI extends JFrame {
     private ChatRoomPanel chatRoomPanel = new ChatRoomPanel();
     private JTextField chatText = new JTextField();
     private JButton sendButton = new JButton("Send");
-    Message m1;
 
 
     public ClientGUI(Client client) {
@@ -79,6 +78,22 @@ public class ClientGUI extends JFrame {
 
         //click listener for send buttons
         sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message message = new Message();
+                message.setText(chatText.getText());
+                try {
+                    client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
+                    client.sendMessage(message);
+                    chatText.setText("");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        // send message by pressing the return key
+        chatText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message message = new Message();
