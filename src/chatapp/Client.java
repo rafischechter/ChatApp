@@ -3,6 +3,9 @@ package chatapp;
 import java.io.*;
 import java.net.Socket;
 
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
 /**
  * client instance
  */
@@ -96,6 +99,7 @@ public class Client{
         while(true){
             try {
                 Message message = (Message) inputFromServer.readObject();
+                playSound();
                 System.out.println(message.getText());
                 clientGUI.addNewMessage(message);
             } catch (IOException e) {
@@ -127,6 +131,19 @@ public class Client{
         ccd = new ClientConnectionDialog();
         serverAddress = ccd.getServerAddress();
         port = ccd.getServerPort();
+    }
+
+    public void playSound() {
+        String beep = "beep.wav";
+        InputStream in;
+        AudioStream audioStream = null;
+        try {
+            in = new FileInputStream(beep);
+            audioStream = new AudioStream(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AudioPlayer.player.start(audioStream);
     }
 
 }
