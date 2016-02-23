@@ -15,8 +15,10 @@ public class Client{
     private ObjectOutputStream outputToServer;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
-    ClientConnectionDialog ccd;
+    private ClientConnectionDialog ccd;
     private ClientGUI clientGUI;
+    private ClientLoginDialog clientLoginDialog;
+    private String userName;
 
     public Client(){
         try {
@@ -27,8 +29,11 @@ public class Client{
     }
 
     public void runClient() throws IOException {
+        clientLoginDialog = new ClientLoginDialog();
+        userName = clientLoginDialog.getUsername();
         getServerAddressAndPort();
         clientGUI = new ClientGUI(this);
+        clientGUI.updateUserInfo(userName);
         connectToServer();
         setupStreams();
         maintainConnection();
