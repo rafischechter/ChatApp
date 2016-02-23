@@ -31,7 +31,7 @@ public class ClientLoginDialog {
      *
      * @return username
      */
-    private String getUsername() {
+    public String getUsername() {
         return username.getText();
     }
 
