@@ -22,6 +22,7 @@ public class ClientConnectionData {
     public ClientConnectionData(Socket socket) {
         this.socket = socket;
         setupStreams();
+        announceClientConnected();
     }
 
     /**
@@ -106,6 +107,16 @@ public class ClientConnectionData {
 
     public void sendMessage(Message message) throws IOException {
         objectOutput.writeObject(message);
+    }
+
+    public void announceClientConnected() {
+        Message m = new Message();
+        m.setText(socket.getInetAddress() + " connected");
+        try {
+            sendMessage(m);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
