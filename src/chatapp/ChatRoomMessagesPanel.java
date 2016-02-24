@@ -7,11 +7,11 @@ import java.util.ArrayList;
 /**
  *  A JScrollPane that shows the messages for each room
  */
-public class ChatRoomPanel extends JScrollPane {
+public class ChatRoomMessagesPanel extends JScrollPane {
 
     private JPanel chatMessages = new JPanel();
 
-    public ChatRoomPanel() {
+    public ChatRoomMessagesPanel() {
 
         this.setViewportView(chatMessages);
         this.setPreferredSize(new Dimension(500,300));

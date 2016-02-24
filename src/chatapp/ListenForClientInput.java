@@ -1,5 +1,7 @@
 package chatapp;
 
+import java.io.IOException;
+
 /**
  * Listens and receives input from clients
  * Acts upon client instructions
@@ -30,7 +32,8 @@ public class ListenForClientInput extends Thread {
          */
         while (listen) {
 
-            int actionCode = connData.getActionCodeFromClient();
+            int actionCode = connData.getActionCode();
+            System.out.println("server receives action code " + actionCode + " from the client");
 
             if (actionCode == Server.ActionCodes.NEW_MESSAGE) {
                 //process new message
@@ -40,6 +43,17 @@ public class ListenForClientInput extends Thread {
             }
             else if (actionCode == Server.ActionCodes.NEW_CHATROOM) {
                 //create a new chat room
+                int id = ChatRoom.getNextId();
+                ChatRoom room = null;
+                try {
+                    room = new ChatRoom(id, connData.getNewRoomName(), connData.getNewRoomTopic());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (room != null) {
+                    server.processNewChatRoom(room);
+                }
             }
 
         }

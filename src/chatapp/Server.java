@@ -14,7 +14,7 @@ public class Server {
     class ActionCodes {
         //todo is it better to use an enum?
         public static final int NEW_MESSAGE = 1;
-        public static final int NEW_CHATROOM= 2;
+        public static final int NEW_CHATROOM = 2;
     }
 
     public static final int PORT = 8000;
@@ -25,6 +25,7 @@ public class Server {
 
     //holds all the connection data for clients connected to the server
     private List<ClientConnectionData> clients = new ArrayList<ClientConnectionData>();
+    private List<ChatRoom> chatRooms = new ArrayList<ChatRoom>();
 
     /**
      * constructor
@@ -72,6 +73,37 @@ public class Server {
         this.clients.add(ccd);
     }
 
+
+    public void processNewChatRoom(ChatRoom room) {
+        this.addNewChatRoom(room);
+
+        //alert all clients about new room
+        for (ClientConnectionData client : clients) {
+            try {
+                client.sendActionCode(Server.ActionCodes.NEW_CHATROOM);
+                client.sendRoom(room);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void sendNewClientAllRooms(ClientConnectionData client) {
+        for(ChatRoom room : chatRooms) {
+            try {
+                client.sendActionCode(ActionCodes.NEW_CHATROOM);
+                client.sendRoom(room);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public void addNewChatRoom(ChatRoom room) {
+        this.chatRooms.add(room);
+    }
+
     /**
      * todo this should be in the chatapp.ChatRoom class
      *
@@ -83,6 +115,7 @@ public class Server {
         //alert all clients about new message
         for (ClientConnectionData client : clients) {
             try {
+                client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
                 client.sendMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,11 +1,14 @@
 package chatapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * All information for a chat room
  */
-public class ChatRoom {
+public class ChatRoom implements Serializable {
+
+    private static int nextId = 1;
 
     private int chatRoomId;
     private String roomName;
@@ -21,6 +24,17 @@ public class ChatRoom {
         setChatRoomId(chatRoomId);
         setRoomName(roomName);
         setDiscussionTopic(discussionTopic);
+    }
+
+    public static synchronized int getNextId() {
+        int retValue = nextId;
+
+        nextId++;
+
+        if (nextId <= 0)
+            nextId = 1;
+
+        return retValue;
     }
 
     public void setChatRoomId(int chatRoomId) {

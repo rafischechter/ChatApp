@@ -11,8 +11,8 @@ public class ClientConnectionData {
     private Socket socket;
     private ObjectInputStream objectInput;
     private ObjectOutputStream objectOutput;
-    private DataInputStream input;
-    private DataOutputStream output;
+    private DataInputStream dataInput;
+    private DataOutputStream dataOutput;
 
     /**
      * Constructor, sets up data streams for the socket
@@ -22,7 +22,7 @@ public class ClientConnectionData {
     public ClientConnectionData(Socket socket) {
         this.socket = socket;
         setupStreams();
-        announceClientConnected();
+        //announceClientConnected();
     }
 
     /**
@@ -33,8 +33,8 @@ public class ClientConnectionData {
             this.objectOutput = new ObjectOutputStream(socket.getOutputStream());
             this.objectInput = new ObjectInputStream(socket.getInputStream());
 
-            this.output = new DataOutputStream(socket.getOutputStream());
-            this.input = new DataInputStream(socket.getInputStream());
+            this.dataOutput = new DataOutputStream(socket.getOutputStream());
+            this.dataInput = new DataInputStream(socket.getInputStream());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,14 +49,14 @@ public class ClientConnectionData {
             this.socket.close();
             this.objectInput.close();
             this.objectOutput.close();
-            this.input.close();
-            this.output.close();
+            this.dataInput.close();
+            this.dataOutput.close();
 
             this.socket = null;
             this.objectInput = null;
             this.objectOutput = null;
-            this.input = null;
-            this.output = null;
+            this.dataInput = null;
+            this.dataOutput = null;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,9 +66,6 @@ public class ClientConnectionData {
      * Gets a chatapp.Message from the client
      *
      * @return chatapp.Message sent from the client
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
      */
     public Message getMessageFromInputStream() {
         Message message = null;
@@ -92,32 +89,54 @@ public class ClientConnectionData {
      *
      * @return the code of the action the client wants to perform
      */
-    public int getActionCodeFromClient() {
+    public int getActionCode() {
 
         int actionCode = -1;
 
+
         try {
-            actionCode = input.readInt();
+            actionCode = dataInput.readInt();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("action code " + actionCode + " read from client");
 
         return actionCode;
     }
 
-    public void sendMessage(Message message) throws IOException {
-        objectOutput.writeObject(message);
+    public void sendActionCode(int code) throws IOException {
+        dataOutput.writeInt(code);
+        System.out.println("actioncode " + code + " sent to client");
     }
 
-    public void announceClientConnected() {
-        Message m = new Message();
-        m.setText(socket.getInetAddress() + " connected");
-        try {
-            sendMessage(m);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public String getNewRoomName() throws IOException {
+        return dataInput.readUTF();
     }
+
+    public String getNewRoomTopic() throws IOException {
+        return dataInput.readUTF();
+    }
+
+    public void sendRoom(ChatRoom room) throws IOException {
+        objectOutput.writeObject(room);
+        objectOutput.flush();
+    }
+
+    public void sendMessage(Message message) throws IOException {
+        objectOutput.writeObject(message);
+        objectOutput.flush();
+    }
+
+//    public void announceClientConnected() {
+//        Message m = new Message();
+//        m.setText(socket.getInetAddress() + " connected");
+//        try {
+//            sendMessage(m);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
 

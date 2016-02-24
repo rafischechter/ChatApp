@@ -31,7 +31,7 @@ public class ServerGUI extends JFrame {
         this.pack();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
 
         turnOnserver.addActionListener(new ActionListener() {

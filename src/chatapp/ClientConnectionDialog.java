@@ -20,6 +20,7 @@ public class ClientConnectionDialog {
     public void createConnectionDialog() {
         serverAddress.setEditable(true);
         populateServerAddress();
+        serverPort.setText(Server.PORT + "");
         JOptionPane.showConfirmDialog(null, message, "Connect", JOptionPane.OK_CANCEL_OPTION);
     }
 

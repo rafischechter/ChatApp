@@ -41,6 +41,9 @@ public class ListenForNewClient extends Thread {
             //store the new chatapp.ClientConnectionData in the server
             server.storeNewClientConnectionData(ccd);
 
+            //send the new client all available rooms
+            server.sendNewClientAllRooms(ccd);
+
             //start listening for new messages from the client
             startListeningForInputFromClient(server, ccd);
 

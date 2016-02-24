@@ -56,15 +56,27 @@ public class Client{
     */
 
     /**
+     *
+     */
+    public void sendNewRoomInfo(String name, String topic) throws IOException {
+        dataOutputStream.writeUTF(name);
+        dataOutputStream.flush();
+        dataOutputStream.writeUTF(topic);
+        dataOutputStream.flush();
+    }
+
+    /**
      * Sets up input and output streams
      */
     public void setupStreams(){
         try {
-            outputToServer = new ObjectOutputStream(socket.getOutputStream());
-            inputFromServer = new ObjectInputStream(socket.getInputStream());
 
-            dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            dataInputStream = new DataInputStream(socket.getInputStream());
+            this.outputToServer = new ObjectOutputStream(socket.getOutputStream());
+            this.inputFromServer = new ObjectInputStream(socket.getInputStream());
+
+            this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            this.dataInputStream = new DataInputStream(socket.getInputStream());
+
             System.out.println("Streams connected");
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,10 +85,12 @@ public class Client{
 
     public void sendActionCode(int code) throws IOException {
         dataOutputStream.writeInt(code);
+        dataOutputStream.flush();
     }
 
     public void sendMessage(Message message) throws IOException {
         outputToServer.writeObject(message);
+        outputToServer.flush();
     }
 
     /**
@@ -96,18 +110,52 @@ public class Client{
      * send and receive messages
      */
     public void maintainConnection(){
-        while(true){
-            try {
-                Message message = (Message) inputFromServer.readObject();
-                playSound();
-                System.out.println(message.getText());
-                clientGUI.addNewMessage(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+        int actionCode;
+
+        while (true) {
+            actionCode = getActionCodeFromServer();
+
+            if (actionCode == Server.ActionCodes.NEW_MESSAGE) {
+                Message message = null;
+
+                try {
+                    message = getMessageFromServer();
+                    playSound();
+                    System.out.println(message.getText());
+                    addNewMessageToGUI(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (actionCode == Server.ActionCodes.NEW_CHATROOM) {
+                try {
+                    ChatRoom room = getRoomFromServer();
+                    addNewRoomToGUI(room);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+    }
+
+    public void addNewMessageToGUI(Message message) {
+        clientGUI.addNewMessage(message);
+    }
+
+    public void addNewRoomToGUI(ChatRoom room) {
+        clientGUI.addNewRoom(room);
+    }
+
+    public Message getMessageFromServer() throws IOException, ClassNotFoundException {
+        return (Message) inputFromServer.readObject();
+    }
+
+    public ChatRoom getRoomFromServer() throws IOException, ClassNotFoundException {
+        return (ChatRoom) inputFromServer.readObject();
     }
 
     /**
@@ -117,6 +165,8 @@ public class Client{
         try {
             inputFromServer.close();
             outputToServer.close();
+            dataInputStream.close();
+            dataOutputStream.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -144,6 +194,20 @@ public class Client{
             e.printStackTrace();
         }
         AudioPlayer.player.start(audioStream);
+    }
+
+    public int getActionCodeFromServer() {
+
+        int actionCode = -1;
+
+        try {
+            actionCode = dataInputStream.readInt();
+            System.out.println("action code " + actionCode + " read by client");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return actionCode;
     }
 
 }
