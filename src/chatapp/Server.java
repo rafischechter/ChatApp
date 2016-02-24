@@ -88,5 +88,13 @@ public class Server {
         }
     }
 
+    public void turnOnServer() {
+        // Code to turn on the server
+    }
+
+    public void shutDownServer() {
+        // code to shutdown the server
+    }
+
 }
 
