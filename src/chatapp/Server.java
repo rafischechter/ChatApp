@@ -21,6 +21,7 @@ public class Server {
     public static final int BACKLOG = 15;
 
     private ServerSocket serverSocket;
+    private ServerGUI serverGUI;
 
     //holds all the connection data for clients connected to the server
     private List<ClientConnectionData> clients = new ArrayList<ClientConnectionData>();
@@ -29,6 +30,7 @@ public class Server {
      * constructor
      */
     Server() {
+        serverGUI = new ServerGUI(this);
         startServer();
         startListeningForNewClients();
 
@@ -92,7 +94,7 @@ public class Server {
         // Code to turn on the server
     }
 
-    public void shutDownServer() {
+    public void shutOffServer() {
         // code to shutdown the server
     }
 
