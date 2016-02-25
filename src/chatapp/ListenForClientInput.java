@@ -55,6 +55,38 @@ public class ListenForClientInput extends Thread {
                     server.processNewChatRoom(room);
                 }
             }
+            else if (actionCode == Server.ActionCodes.JOIN_NEW_ROOM) {
+                int id = -1;
+
+                try {
+                    id = connData.getRoomIdForJoinRequest();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //get the room trying to be entered
+                ChatRoom room = server.getRoomById(id);
+
+                    //ensure the room exists
+                if (room == null) {
+
+                    //TODO let client know room doesnt exist
+                    continue;
+                }   //check if the room is full
+                else if (room.getNumOfClientsCurrentlyInRoom() >= room.MAX_CLIENTS_ALLOWED) {
+                    //TODO let client know room is full
+                    continue;
+                }   //if not remove the user from their old room, add the user to the new room and then send the room to them
+                else {
+                    room.addClient(connData);
+                    try {
+                        connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
+                        connData.sendRoom(room);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
         }
 

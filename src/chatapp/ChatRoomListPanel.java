@@ -10,8 +10,12 @@ import java.util.ArrayList;
 public class ChatRoomListPanel extends JScrollPane {
 
     private JPanel rooms = new JPanel();
+    private Client client;
 
-    ChatRoomListPanel() {
+    ChatRoomListPanel(Client client) {
+
+        this.client = client;
+
         this.setViewportView(rooms);
         this.setPreferredSize(new Dimension(100, 300));
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -26,7 +30,7 @@ public class ChatRoomListPanel extends JScrollPane {
      * @param room room to be added to the list
      */
     public void addRoom(ChatRoom room) {
-        this.rooms.add(new ChatRoomListItem(room));
+        this.rooms.add(new ChatRoomListItem(client, room));
         this.paintImmediately(0, 0, this.getWidth(), this.getHeight());
         this.revalidate();
     }

@@ -41,6 +41,14 @@ public class ClientConnectionData {
         }
     }
 
+    public int getRoomIdForJoinRequest() throws IOException {
+        int id = -1;
+
+        id = dataInput.readInt();
+
+        return id;
+    }
+
     /**
      * Closes all connections and nulls their corresponding variables
      */

@@ -25,7 +25,7 @@ public class ClientGUI extends JFrame {
     // private JButton usersButton = new JButton("Users");
     // private JButton roomsButton = new JButton("Rooms");
     private JButton addRoomButton = new JButton("Create New Room");
-    private ChatRoomListPanel roomsList = new ChatRoomListPanel();
+    private ChatRoomListPanel roomsList = new ChatRoomListPanel(client);
 
     private JLabel userInfoLabel = new JLabel("user information goes here");
     private ChatRoomMessagesPanel chatRoomMessagesPanel = new ChatRoomMessagesPanel();

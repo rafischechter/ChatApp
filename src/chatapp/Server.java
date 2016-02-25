@@ -15,6 +15,7 @@ public class Server {
         //todo is it better to use an enum?
         public static final int NEW_MESSAGE = 1;
         public static final int NEW_CHATROOM = 2;
+        public static final int JOIN_NEW_ROOM = 3;
     }
 
     public static final int PORT = 8000;
@@ -129,6 +130,15 @@ public class Server {
 
     public void shutOffServer() {
         // code to shutdown the server
+    }
+
+    public ChatRoom getRoomById(int id) {
+        for (ChatRoom room : chatRooms) {
+            if (room.getId() == id)
+                return room;
+        }
+
+        return null;
     }
 
 }

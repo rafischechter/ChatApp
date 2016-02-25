@@ -202,12 +202,21 @@ public class Client{
 
         try {
             actionCode = dataInputStream.readInt();
-            System.out.println("action code " + actionCode + " read by client");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return actionCode;
+    }
+
+    public void requestToJoinRoom(int id) {
+        //send the server a request to join the room
+        try {
+            sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
+            dataOutputStream.writeInt(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

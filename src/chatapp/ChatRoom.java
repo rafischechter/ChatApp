@@ -10,18 +10,19 @@ public class ChatRoom implements Serializable {
 
     private static int nextId = 1;
 
-    private int chatRoomId;
+    public final int MAX_CLIENTS_ALLOWED = 10;
+
+    private int id;
     private String roomName;
     private String discussionTopic;
 
-    private final int MAX_CLIENTS_ALLOWED = 10;
-    private int numOfClientsCurrentlyInRoom;
-    private ArrayList<Client> clientsInRoom = new ArrayList<Client>();
+    private int numOfClientsCurrentlyInRoom = 0;
+    private ArrayList<ClientConnectionData> clientsInRoom = new ArrayList<ClientConnectionData>();
 
     private ArrayList<Message> messages = new ArrayList<Message>();
 
-    public ChatRoom(int chatRoomId, String roomName, String discussionTopic) {
-        setChatRoomId(chatRoomId);
+    public ChatRoom(int id, String roomName, String discussionTopic) {
+        setId(id);
         setRoomName(roomName);
         setDiscussionTopic(discussionTopic);
     }
@@ -37,8 +38,8 @@ public class ChatRoom implements Serializable {
         return retValue;
     }
 
-    public void setChatRoomId(int chatRoomId) {
-        this.chatRoomId = chatRoomId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setRoomName(String roomName) {
@@ -49,8 +50,8 @@ public class ChatRoom implements Serializable {
         this.discussionTopic = discussionTopic;
     }
 
-    public int getChatRoomId() {
-        return chatRoomId;
+    public int getId() {
+        return id;
     }
 
     public String getRoomName() {
@@ -59,10 +60,6 @@ public class ChatRoom implements Serializable {
 
     public String getDiscussionTopic() {
         return discussionTopic;
-    }
-
-    public int getMAX_CLIENTS_ALLOWED() {
-        return MAX_CLIENTS_ALLOWED;
     }
 
     public int getNumOfClientsCurrentlyInRoom() {
@@ -75,6 +72,14 @@ public class ChatRoom implements Serializable {
 
     public void removeAllMessages() {
         messages.clear();
+    }
+
+    public void addClient(ClientConnectionData client) {
+        this.clientsInRoom.add(client);
+    }
+
+    public void removeClient(ClientConnectionData client) {
+        this.clientsInRoom.remove(client);
     }
 
 }
