@@ -24,15 +24,15 @@ public class ClientGUI extends JFrame {
     private JPanel roomTabsPanel = new JPanel();
     private JPanel roomInfoPanel = new JPanel();
 
-    // private JButton usersButton = new JButton("Users");
-    // private JButton roomsButton = new JButton("Rooms");
-    private JButton addRoomButton = new JButton("Create New Room");
+    //private JLabel roomsListHeaderLabel = new JLabel("Rooms", SwingConstants.CENTER);
     private ChatRoomListPanel roomsList;
+    private JButton addRoomButton = new JButton("Create New Room");
 
     private JLabel userInfoLabel = new JLabel();
     private ChatRoomMessagesPanel chatRoomMessagesPanel = new ChatRoomMessagesPanel();
     private JTextField chatText = new JTextField();
     private JButton sendButton = new JButton("Send");
+    private JButton addRemoveImgButton = new JButton("Add Image");
 
 
     public ClientGUI(Client client) {
@@ -44,23 +44,24 @@ public class ClientGUI extends JFrame {
     private void createAndShowGUI() {
 
         //sets up panel for typing out and sending messages
-        sendMsgPanel.setLayout(new BorderLayout());
-        sendMsgPanel.add(chatText, BorderLayout.CENTER);
-        sendMsgPanel.add(sendButton, BorderLayout.EAST);
+        sendMsgPanel.setLayout(new BoxLayout(sendMsgPanel, BoxLayout.X_AXIS));
+        sendMsgPanel.add(chatText);
+        sendMsgPanel.add(addRemoveImgButton);
+        sendMsgPanel.add(sendButton);
 
         //sets up left side panel where chat messages are shown
         chatPanel.setLayout(new BorderLayout());
+        userInfoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         chatPanel.add(userInfoLabel, BorderLayout.NORTH);
         chatPanel.add(chatRoomMessagesPanel, BorderLayout.CENTER);
         chatPanel.add(sendMsgPanel, BorderLayout.SOUTH);
 
-        //sets up panel for tabs to switch between viewing rooms and users
-        //roomTabsPanel.add(usersButton);
-        //roomTabsPanel.add(roomsButton);
-
         //sets up panel for showing the available rooms and users
         roomInfoPanel.setLayout(new BoxLayout(roomInfoPanel, BoxLayout.Y_AXIS));
         roomsList = new ChatRoomListPanel(client);
+        //roomsListHeaderLabel.setPreferredSize(new Dimension(120, 50));
+        //roomsListHeaderLabel.setFont(new Font("Times Roman", Font.BOLD, 24));
+        //roomInfoPanel.add(roomsListHeaderLabel);
         roomInfoPanel.add(roomsList);
         roomInfoPanel.add(addRoomButton);
 
@@ -132,15 +133,20 @@ public class ClientGUI extends JFrame {
 
     private void sendMessage() {
         if (client.isInRoom()) {
-            Message message = new Message();
-            message.setText(chatText.getText());
-            try {
-                client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
-                client.sendMessage(message);
-                chatText.setText("");
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            if (!chatText.getText().trim().equals("")) {
+                Message message = new Message();
+                message.setText(chatText.getText());
+                try {
+                    client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
+                    client.sendMessage(message);
+                    chatText.setText("");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
+            else
+                JOptionPane.showMessageDialog(null, "You can't send empty messages", "Error", JOptionPane.ERROR_MESSAGE);
+
         }
         else {
             JOptionPane.showMessageDialog(null, "You must be in a room to send a message", "Error", JOptionPane.ERROR_MESSAGE);
