@@ -117,7 +117,7 @@ public class Client{
             if (actionCode == Server.ActionCodes.NEW_MESSAGE) {
                     Message message = getMessageFromServer();
                     playSound();
-                    System.out.println(message.getText());
+                    currRoom.addMessage(message);
                     addNewMessageToGUI(message);
             }
             else if (actionCode == Server.ActionCodes.NEW_CHATROOM) {
@@ -130,6 +130,7 @@ public class Client{
 
                 System.out.println("response code is " + responseCode);
                 if(responseCode == Server.ActionCodes.JOIN_NEW_ROOM_SUCCESS) {
+
                     ChatRoom room = getRoomFromServer();
 
                     if (room != null) {
@@ -152,6 +153,11 @@ public class Client{
     private void joinNewRoom(ChatRoom room) {
         this.currRoom = room;
         this.clientGUI.setUpNewRoom(room);
+    }
+
+    private void leaveCurrentRoom() {
+        this.currRoom.close();
+        this.currRoom = null;
     }
 
     public void addNewMessageToGUI(Message message) {

@@ -67,9 +67,9 @@ public class ListenForClientInput extends Thread {
                 //get the room trying to be entered
                 ChatRoom room = server.getRoomById(id);
 
-                System.out.println("cur in room: " + room.getNumOfClientsCurrentlyInRoom());
-                System.out.println("room max: " + room.MAX_CLIENTS_ALLOWED);
-                System.out.println("let new client in? " + (room.getNumOfClientsCurrentlyInRoom() < room.MAX_CLIENTS_ALLOWED));
+                //System.out.println("cur in room: " + room.getNumOfClientsCurrentlyInRoom());
+                //System.out.println("room max: " + room.MAX_CLIENTS_ALLOWED);
+                //System.out.println("let new client in? " + (room.getNumOfClientsCurrentlyInRoom() < room.MAX_CLIENTS_ALLOWED));
 
                 try {
                     connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);

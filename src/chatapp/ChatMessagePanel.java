@@ -11,6 +11,7 @@ public class ChatMessagePanel extends JPanel{
 
     private Message message;
 
+    private JLabel messageHeader = new JLabel();
     private JLabel messageText = new JLabel();
     private JLabel image = new JLabel();
 
@@ -19,22 +20,23 @@ public class ChatMessagePanel extends JPanel{
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        /**
-         * checks if there is any text in the message
-         */
-        if (message.hasText()) {
-            messageText.setText(message.getFormattedTimeStamp() + " - " + message.getText());
+        if (!message.isEmpty()){
+            //messageHeader.setText(message.getFormattedTimeStamp());
+            //this.add(messageHeader);
 
+            messageText.setText(message.getFormattedTimeStamp() + " - " + message.getUserName() + ": ");
+            if (message.hasText()) {
+                messageText.setText(messageText.getText() + message.getText());
+            }
             this.add(messageText);
+
+            if (message.hasImage()) {
+                image.setIcon(message.getImage());
+                this.add(image);
+            }
+
         }
 
-        /**
-         * checks if there is an image being sent as part of the message
-         */
-        if (message.hasImage()) {
-            image.setIcon(message.getImage());
-            this.add(image);
-        }
 
     }
 

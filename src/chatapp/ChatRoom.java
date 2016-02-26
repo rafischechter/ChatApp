@@ -72,7 +72,9 @@ public class ChatRoom implements Serializable {
         //store new message
         messages.add(message);
 
-        //alert all clients about new message
+    }
+
+    public void alertClientsOfNewMessage(Message message) {
         for (ClientConnectionData client : clientsInRoom) {
             try {
                 client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
@@ -92,9 +94,9 @@ public class ChatRoom implements Serializable {
     }
 
     public void addClient(ClientConnectionData client) {
-        Message newUserNotification = new Message();
-        newUserNotification.setText("New user entered the room");
-        this.addMessage(newUserNotification);
+//        Message newUserNotification = new Message();
+//        newUserNotification.setText("New user entered the room");
+//        this.addMessage(newUserNotification);
 
         this.clientsInRoom.add(client);
         this.numOfClientsCurrentlyInRoom++;
@@ -113,4 +115,9 @@ public class ChatRoom implements Serializable {
         return clientsInRoom.indexOf(client) >= 0;
     }
 
+    public void close() {
+        this.removeAllMessages();
+        this.messages = null;
+        this.clientsInRoom = null;
+    }
 }

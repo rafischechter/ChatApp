@@ -129,6 +129,7 @@ public class Server {
         for (ChatRoom room : chatRooms) {
             if (room.getId() == roomId) {
                 room.addMessage(message);
+                room.alertClientsOfNewMessage(message);
                 break;
             }
         }

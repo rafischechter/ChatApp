@@ -52,6 +52,13 @@ public class Message implements Serializable {
         return this.file;
     }
 
+    public String getUserName() {
+        if (user != null)
+            return user.getUserName();
+        else
+            return "Guest";
+    }
+
     public void setFile(File file) {
         this.file = file;
     }
@@ -111,6 +118,13 @@ public class Message implements Serializable {
      */
     public boolean hasFile() {
         return this.file != null;
+    }
+
+    /**
+     * checks if the message is empty
+     */
+    public boolean isEmpty() {
+        return !hasText() && !hasImage() && !hasFile();
     }
 
 }

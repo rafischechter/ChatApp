@@ -139,7 +139,7 @@ public class ClientGUI extends JFrame {
     public void setUpNewRoom(ChatRoom room) {
         this.chatRoomMessagesPanel.removeAllMessages();
         for (Message m : room.getMessageList()) {
-            chatRoomMessagesPanel.addMessage(m);
+           addNewMessage(m);
         }
 
         //change header label
@@ -149,10 +149,6 @@ public class ClientGUI extends JFrame {
 
     public void addNewMessage(Message message) {
         chatRoomMessagesPanel.addMessage(message);
-    }
-
-    public void updateUserInfo(String userName) {
-        userInfoLabel.setText(userName);
     }
 
     public void setHeaderLabel(String userName, String roomName, String roomTopic) {
