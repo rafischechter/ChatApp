@@ -223,7 +223,7 @@ public class ClientGUI extends JFrame {
 
         JFileChooser fc = new JFileChooser();
         fc.setAcceptAllFileFilterUsed(false);
-        fc.setFileFilter(new FileNameExtensionFilter("Images", "bmp", "jpg", "gif", "png"));
+        fc.setFileFilter(new FileNameExtensionFilter("Images", "bmp", "jpeg", "tiff", "tif", "jpg", "gif", "png"));
         int returnValue = fc.showDialog(this, "Attach Image");
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
