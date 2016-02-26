@@ -121,8 +121,8 @@ public class Server {
 
     /**
      *
-     * Processes a newly recieved message
-     * @param message New message recieved from the client
+     * Processes a newly received message
+     * @param message New message received from the client
      */
     public void processNewMessage(int roomId, Message message) {
 

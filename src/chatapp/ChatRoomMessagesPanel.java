@@ -50,6 +50,8 @@ public class ChatRoomMessagesPanel extends JScrollPane {
      */
     public void removeAllMessages() {
         chatMessages.removeAll();
+        this.paintImmediately(0, 0, this.getWidth(), this.getHeight());
+        this.validate();
     }
 
 }
