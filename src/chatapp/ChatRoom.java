@@ -74,6 +74,10 @@ public class ChatRoom implements Serializable {
         messages.clear();
     }
 
+    public ArrayList<Message> getMessageList() {
+        return this.messages;
+    }
+
     public void addClient(ClientConnectionData client) {
         this.clientsInRoom.add(client);
     }

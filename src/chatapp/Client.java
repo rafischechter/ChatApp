@@ -6,6 +6,8 @@ import java.net.Socket;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
+import javax.swing.*;
+
 /**
  * client instance
  */
@@ -13,15 +15,21 @@ public class Client{
 
     private int port;
     private String serverAddress;
+
     private Socket socket;
+
     private ObjectInputStream inputFromServer;
     private ObjectOutputStream outputToServer;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+
     private ClientConnectionDialog ccd;
     private ClientGUI clientGUI;
     private ClientLoginDialog clientLoginDialog;
+
     private String userName;
+
+    private ChatRoom currRoom = null;
 
     public Client(){
         try {
@@ -43,17 +51,6 @@ public class Client{
         closeConnection();
 
     }
-
-    /**
-     * Prompt the user for the servers IP Address
-     * @return servers IP Address
-     */
-    /*
-    private String getServerAddress() {
-        return JOptionPane.showInputDialog(
-                null, "Enter the servers IP address:");
-    }
-    */
 
     /**
      *
@@ -116,30 +113,42 @@ public class Client{
             actionCode = getActionCodeFromServer();
 
             if (actionCode == Server.ActionCodes.NEW_MESSAGE) {
-                Message message = null;
-
-                try {
-                    message = getMessageFromServer();
+                    Message message = getMessageFromServer();
                     playSound();
                     System.out.println(message.getText());
                     addNewMessageToGUI(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
             }
             else if (actionCode == Server.ActionCodes.NEW_CHATROOM) {
-                try {
                     ChatRoom room = getRoomFromServer();
                     addNewRoomToGUI(room);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            }
+            else if (actionCode == Server.ActionCodes.JOIN_NEW_ROOM) {
+
+                int responseCode = getActionCodeFromServer();
+
+                if(responseCode == Server.ActionCodes.JOIN_NEW_ROOM_SUCCESS) {
+                    ChatRoom room = getRoomFromServer();
+
+                    if (room != null) {
+                        this.joinNewRoom(room);
+                    }
+
                 }
+                else if (responseCode == Server.ActionCodes.JOIN_NEW_ROOM_ERROR) {
+                    JOptionPane.showMessageDialog(null, "There has been an error trying to connect to that room", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else if (responseCode == Server.ActionCodes.JOIN_NEW_ROOM_FULL) {
+                    JOptionPane.showMessageDialog(null, "That room is currently full", "Full Room", JOptionPane.ERROR_MESSAGE);
+                }
+
+
             }
         }
+    }
+
+    private void joinNewRoom(ChatRoom room) {
+        this.currRoom = room;
+        this.clientGUI.setUpNewRoom(room);
     }
 
     public void addNewMessageToGUI(Message message) {
@@ -150,12 +159,32 @@ public class Client{
         clientGUI.addNewRoom(room);
     }
 
-    public Message getMessageFromServer() throws IOException, ClassNotFoundException {
-        return (Message) inputFromServer.readObject();
+    public Message getMessageFromServer() {
+        Message message = null;
+
+        try {
+            message = (Message) inputFromServer.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return message;
     }
 
-    public ChatRoom getRoomFromServer() throws IOException, ClassNotFoundException {
-        return (ChatRoom) inputFromServer.readObject();
+    public ChatRoom getRoomFromServer() {
+        ChatRoom room = null;
+
+        try {
+            room = (ChatRoom) inputFromServer.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return room;
     }
 
     /**

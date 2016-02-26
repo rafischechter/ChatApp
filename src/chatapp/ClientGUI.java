@@ -25,7 +25,7 @@ public class ClientGUI extends JFrame {
     // private JButton usersButton = new JButton("Users");
     // private JButton roomsButton = new JButton("Rooms");
     private JButton addRoomButton = new JButton("Create New Room");
-    private ChatRoomListPanel roomsList = new ChatRoomListPanel(client);
+    private ChatRoomListPanel roomsList;
 
     private JLabel userInfoLabel = new JLabel("user information goes here");
     private ChatRoomMessagesPanel chatRoomMessagesPanel = new ChatRoomMessagesPanel();
@@ -58,6 +58,7 @@ public class ClientGUI extends JFrame {
 
         //sets up panel for showing the available rooms and users
         roomInfoPanel.setLayout(new BoxLayout(roomInfoPanel, BoxLayout.Y_AXIS));
+        roomsList = new ChatRoomListPanel(client);
         roomInfoPanel.add(roomsList);
         roomInfoPanel.add(addRoomButton);
 
@@ -132,7 +133,14 @@ public class ClientGUI extends JFrame {
 
     public void addNewRoom(ChatRoom room) {
         roomsList.addRoom(room);
-        System.out.println("room added");
+    }
+
+    public void setUpNewRoom(ChatRoom room) {
+        this.chatRoomMessagesPanel.removeAllMessages();
+        this.chatRoomMessagesPanel.addMessagesFromList(room.getMessageList());
+//        Message testMessage = new Message();
+//        testMessage.setText("You joined a new room named" + room.getRoomName());
+//        this.chatRoomMessagesPanel.addMessage(testMessage);
     }
 
     public void addNewMessage(Message message) {

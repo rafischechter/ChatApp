@@ -17,10 +17,9 @@ public class ChatRoomListItem extends JPanel {
 
     Client client;
 
-    ChatRoomListItem(Client client, final ChatRoom room) {
+    ChatRoomListItem(Client client, ChatRoom room) {
 
         this.client = client;
-
         this.room = room;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -44,7 +43,7 @@ public class ChatRoomListItem extends JPanel {
                 //check if it is a double click
                 if (e.getClickCount() == 2) {
                     //send the user the id of the room so it can request to join
-                    sendClientClickedRoomId(room.getId());
+                    sendClientClickedRoomId(ChatRoomListItem.this.room.getId());
                 }
 
             }
