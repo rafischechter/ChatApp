@@ -36,7 +36,7 @@ public class Server {
     /**
      * constructor
      */
-    Server() {
+    public Server() {
         serverGUI = new ServerGUI(this);
         startServer();
         startListeningForNewClients();

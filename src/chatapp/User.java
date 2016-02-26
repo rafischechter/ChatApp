@@ -1,11 +1,12 @@
 package chatapp;
 
 import javax.swing.*;
+import java.io.Serializable;
 
 /**
  * Holds user information
  */
-public class User {
+public class User implements Serializable{
 
     private int userID;
     private String screenName;
@@ -14,6 +15,9 @@ public class User {
     private String password;
     private ImageIcon profilePhoto;
 
+    public User (String screenName) {
+        this.userName = screenName;
+    }
 
     public User(int id, String screenName, String email, String userName, String password) {
         this.userID = id;

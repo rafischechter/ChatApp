@@ -160,7 +160,7 @@ public class ClientGUI extends JFrame {
     private void sendMessage() {
         if (client.isInRoom()) {
             if (!chatText.getText().trim().equals("") || attachedImage != null) {
-                Message message = new Message();
+                Message message = new Message(client.getUser());
                 message.setText(chatText.getText());
 
                 if (attachedImage != null) {
@@ -214,7 +214,7 @@ public class ClientGUI extends JFrame {
         if (roomTopic == null || roomTopic.equals("")) {
             roomTopic = "none";
         }
-        this.userInfoLabel.setText("<html>Your User Name: " + userName
+        this.userInfoLabel.setText("<html>Your User Name: " + client.getUser().getUserName()
                 + "<br>Current Room Name: " + roomName
                 + "<br>Current Room Topic: " + roomTopic + "</html>");
     }

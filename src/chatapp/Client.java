@@ -29,6 +29,7 @@ public class Client{
     private ClientLoginDialog clientLoginDialog;
 
     private String userName;
+    private User user;
 
     private ChatRoom currRoom = null;
 
@@ -38,6 +39,28 @@ public class Client{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * For testing - to skip all login screens
+     * @param user
+     */
+    public Client(User user){
+            this.user = user;
+            this.serverAddress = "localhost";
+            this.port = 8000;
+            clientGUI = new ClientGUI(this);
+            clientGUI.setHeaderLabel(user.getUserName(), null, null);
+            connectToServer();
+            setupStreams();
+            maintainConnection();
+            requestShutDown();
+
+    }
+
+    public User getUser() {
+        return  this.user;
     }
 
     public void runClient() throws IOException {
@@ -50,7 +73,6 @@ public class Client{
         setupStreams();
         maintainConnection();
         closeConnection();
-
     }
 
     /**

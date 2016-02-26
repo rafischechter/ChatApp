@@ -18,6 +18,11 @@ public class Message implements Serializable {
         setTimeStamp();
     }
 
+    public Message(User user) {
+        this.user = user;
+        setTimeStamp();
+    }
+
 
     public Date getTimeStamp() {
         return timeStamp;
