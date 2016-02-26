@@ -1,5 +1,6 @@
 package chatapp;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class ChatRoom implements Serializable {
     private String discussionTopic;
 
     private int numOfClientsCurrentlyInRoom = 0;
-    private ArrayList<ClientConnectionData> clientsInRoom = new ArrayList<ClientConnectionData>();
+    transient private ArrayList<ClientConnectionData> clientsInRoom = new ArrayList<ClientConnectionData>();
 
     private ArrayList<Message> messages = new ArrayList<Message>();
 
@@ -67,7 +68,19 @@ public class ChatRoom implements Serializable {
     }
 
     public void addMessage(Message message) {
+
+        //store new message
         messages.add(message);
+
+        //alert all clients about new message
+        for (ClientConnectionData client : clientsInRoom) {
+            try {
+                client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
+                client.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void removeAllMessages() {
@@ -79,11 +92,25 @@ public class ChatRoom implements Serializable {
     }
 
     public void addClient(ClientConnectionData client) {
+        Message newUserNotification = new Message();
+        newUserNotification.setText("New user entered the room");
+        this.addMessage(newUserNotification);
+
         this.clientsInRoom.add(client);
+        this.numOfClientsCurrentlyInRoom++;
+
+        System.out.println("in add client - num of client in room: "  + numOfClientsCurrentlyInRoom);
+
     }
 
     public void removeClient(ClientConnectionData client) {
         this.clientsInRoom.remove(client);
+        this.numOfClientsCurrentlyInRoom--;
+        System.out.println("in remove client - num of client in room: "  + numOfClientsCurrentlyInRoom);
+    }
+
+    public boolean isClientInRoom(ClientConnectionData client) {
+        return clientsInRoom.indexOf(client) >= 0;
     }
 
 }

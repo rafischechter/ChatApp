@@ -37,9 +37,9 @@ public class ListenForClientInput extends Thread {
 
             if (actionCode == Server.ActionCodes.NEW_MESSAGE) {
                 //process new message
-
+                int roomId = connData.getRoomId();
                 Message message = connData.getMessageFromInputStream();
-                server.processNewMessage(message);
+                server.processNewMessage(roomId, message);
             }
             else if (actionCode == Server.ActionCodes.NEW_CHATROOM) {
                 //create a new chat room
@@ -67,6 +67,16 @@ public class ListenForClientInput extends Thread {
                 //get the room trying to be entered
                 ChatRoom room = server.getRoomById(id);
 
+                System.out.println("cur in room: " + room.getNumOfClientsCurrentlyInRoom());
+                System.out.println("room max: " + room.MAX_CLIENTS_ALLOWED);
+                System.out.println("let new client in? " + (room.getNumOfClientsCurrentlyInRoom() < room.MAX_CLIENTS_ALLOWED));
+
+                try {
+                    connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 //ensure the room exists
                 if (room == null) {
 
@@ -93,10 +103,9 @@ public class ListenForClientInput extends Thread {
                 }
                 //if not remove the user from their old room, add the user to the new room and then send the room to them
                 else {
-                    room.addClient(connData);
+                    server.addClientToNewRoom(connData, room.getId());
                     try {
                         connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM_SUCCESS);
-                        connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
                         connData.sendRoom(room);
                     } catch (IOException e) {
                         e.printStackTrace();

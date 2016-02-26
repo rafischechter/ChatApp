@@ -3,6 +3,7 @@ package chatapp;
 import java.io.*;
 import java.net.Socket;
 
+import jdk.nashorn.internal.scripts.JO;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -44,7 +45,7 @@ public class Client{
         userName = clientLoginDialog.getUsername();
         getServerAddressAndPort();
         clientGUI = new ClientGUI(this);
-        clientGUI.updateUserInfo(userName);
+        clientGUI.setHeaderLabel(null, null, null);
         connectToServer();
         setupStreams();
         maintainConnection();
@@ -86,6 +87,7 @@ public class Client{
     }
 
     public void sendMessage(Message message) throws IOException {
+        dataOutputStream.writeInt(currRoom.getId());
         outputToServer.writeObject(message);
         outputToServer.flush();
     }
@@ -126,6 +128,7 @@ public class Client{
 
                 int responseCode = getActionCodeFromServer();
 
+                System.out.println("response code is " + responseCode);
                 if(responseCode == Server.ActionCodes.JOIN_NEW_ROOM_SUCCESS) {
                     ChatRoom room = getRoomFromServer();
 
@@ -212,6 +215,10 @@ public class Client{
         port = ccd.getServerPort();
     }
 
+    public boolean isInRoom() {
+        return this.currRoom != null;
+    }
+
     public void playSound() {
         String beep = "beep.wav";
         InputStream in;
@@ -239,12 +246,20 @@ public class Client{
     }
 
     public void requestToJoinRoom(int id) {
-        //send the server a request to join the room
-        try {
-            sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
-            dataOutputStream.writeInt(id);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        //check if the user is trying to get into the room they are already in
+        if (currRoom != null && currRoom.getId() == id) {
+            JOptionPane.showMessageDialog(null, "You are already in that room", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            //send the server a request to join the room
+
+            try {
+                sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
+                dataOutputStream.writeInt(id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

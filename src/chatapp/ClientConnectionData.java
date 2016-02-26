@@ -101,21 +101,30 @@ public class ClientConnectionData {
 
         int actionCode = -1;
 
-
         try {
             actionCode = dataInput.readInt();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("action code " + actionCode + " read from client");
-
         return actionCode;
+    }
+
+    public int getRoomId() {
+
+        int roomId = -1;
+
+        try {
+            roomId = dataInput.readInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return roomId;
     }
 
     public void sendActionCode(int code) throws IOException {
         dataOutput.writeInt(code);
-        System.out.println("actioncode " + code + " sent to client");
     }
 
     public String getNewRoomName() throws IOException {

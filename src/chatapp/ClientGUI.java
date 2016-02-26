@@ -27,7 +27,7 @@ public class ClientGUI extends JFrame {
     private JButton addRoomButton = new JButton("Create New Room");
     private ChatRoomListPanel roomsList;
 
-    private JLabel userInfoLabel = new JLabel("user information goes here");
+    private JLabel userInfoLabel = new JLabel();
     private ChatRoomMessagesPanel chatRoomMessagesPanel = new ChatRoomMessagesPanel();
     private JTextField chatText = new JTextField();
     private JButton sendButton = new JButton("Send");
@@ -101,14 +101,20 @@ public class ClientGUI extends JFrame {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message message = new Message();
-                message.setText(chatText.getText());
-                try {
-                    client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
-                    client.sendMessage(message);
-                    chatText.setText("");
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+
+                if (client.isInRoom()) {
+                    Message message = new Message();
+                    message.setText(chatText.getText());
+                    try {
+                        client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
+                        client.sendMessage(message);
+                        chatText.setText("");
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "You must be in a room to send a message", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -137,10 +143,13 @@ public class ClientGUI extends JFrame {
 
     public void setUpNewRoom(ChatRoom room) {
         this.chatRoomMessagesPanel.removeAllMessages();
-        this.chatRoomMessagesPanel.addMessagesFromList(room.getMessageList());
-//        Message testMessage = new Message();
-//        testMessage.setText("You joined a new room named" + room.getRoomName());
-//        this.chatRoomMessagesPanel.addMessage(testMessage);
+        for (Message m : room.getMessageList()) {
+            chatRoomMessagesPanel.addMessage(m);
+        }
+
+        //change header label
+        setHeaderLabel(null, room.getRoomName(), room.getDiscussionTopic());
+
     }
 
     public void addNewMessage(Message message) {
@@ -151,7 +160,24 @@ public class ClientGUI extends JFrame {
         userInfoLabel.setText(userName);
     }
 
+    public void setHeaderLabel(String userName, String roomName, String roomTopic) {
+        if (userName == null || userName.equals("")) {
+            userName = "none";
+        }
 
+        if (roomName == null || roomName.equals("")) {
+            roomName = "none";
+        }
+
+        if (roomTopic == null || roomTopic.equals("")) {
+            roomTopic = "none";
+        }
+
+
+        this.userInfoLabel.setText("<html>Your User Name: " + userName
+                + "<br>Current Room Name: " + roomName
+                + "<br>Current Room Topic: " + roomTopic + "</html>");
+    }
 
 
 }

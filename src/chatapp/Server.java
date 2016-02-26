@@ -16,9 +16,9 @@ public class Server {
         public static final int NEW_MESSAGE = 1;
         public static final int NEW_CHATROOM = 2;
         public static final int JOIN_NEW_ROOM = 3;
-            public static final int JOIN_NEW_ROOM_ERROR = 3;
-            public static final int JOIN_NEW_ROOM_FULL = 3;
-            public static final int JOIN_NEW_ROOM_SUCCESS = 3;
+            public static final int JOIN_NEW_ROOM_ERROR = 31;
+            public static final int JOIN_NEW_ROOM_FULL = 32;
+            public static final int JOIN_NEW_ROOM_SUCCESS = 33;
 
 
     }
@@ -79,7 +79,6 @@ public class Server {
         this.clients.add(ccd);
     }
 
-
     public void processNewChatRoom(ChatRoom room) {
         this.addNewChatRoom(room);
 
@@ -106,25 +105,31 @@ public class Server {
         }
     }
 
+    public void addClientToNewRoom(ClientConnectionData client, int roomId) {
+        for (ChatRoom room : chatRooms) {
+            if (room.isClientInRoom(client)){
+                room.removeClient(client);
+            } else if (room.getId() == roomId) {
+                room.addClient(client);
+            }
+        }
+    }
+
     public void addNewChatRoom(ChatRoom room) {
         this.chatRooms.add(room);
     }
 
     /**
-     * todo this should be in the chatapp.ChatRoom class
      *
      * Processes a newly recieved message
      * @param message New message recieved from the client
      */
-    public void processNewMessage(Message message) {
-        //store new message
-        //alert all clients about new message
-        for (ClientConnectionData client : clients) {
-            try {
-                client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
-                client.sendMessage(message);
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void processNewMessage(int roomId, Message message) {
+
+        for (ChatRoom room : chatRooms) {
+            if (room.getId() == roomId) {
+                room.addMessage(message);
+                break;
             }
         }
     }
