@@ -1,11 +1,13 @@
 package chatapp;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -33,7 +35,8 @@ public class ClientGUI extends JFrame {
     private JTextField chatText = new JTextField();
     private JButton sendButton = new JButton("Send");
     private JButton addRemoveImgButton = new JButton("Add Image");
-
+    private JButton viewAttachedImgButton = new JButton("View Image");
+    private ImageIcon attachedImage = null;
 
     public ClientGUI(Client client) {
         this.client = client;
@@ -46,6 +49,8 @@ public class ClientGUI extends JFrame {
         //sets up panel for typing out and sending messages
         sendMsgPanel.setLayout(new BoxLayout(sendMsgPanel, BoxLayout.X_AXIS));
         sendMsgPanel.add(chatText);
+        this.viewAttachedImgButton.setEnabled(false);
+        sendMsgPanel.add(viewAttachedImgButton);
         sendMsgPanel.add(addRemoveImgButton);
         sendMsgPanel.add(sendButton);
 
@@ -116,6 +121,27 @@ public class ClientGUI extends JFrame {
             }
         });
 
+        // allow user to attach/remove an image to/from their message
+        addRemoveImgButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (attachedImage == null) {
+                    addImageToMessage();
+                }
+                else {
+                    removeImageFromMessage();
+                }
+            }
+        });
+
+        // allow the user to view their attached image
+        viewAttachedImgButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "", "Image Viewer", JOptionPane.PLAIN_MESSAGE, attachedImage );
+            }
+        });
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -133,13 +159,19 @@ public class ClientGUI extends JFrame {
 
     private void sendMessage() {
         if (client.isInRoom()) {
-            if (!chatText.getText().trim().equals("")) {
+            if (!chatText.getText().trim().equals("") || attachedImage != null) {
                 Message message = new Message();
                 message.setText(chatText.getText());
+
+                if (attachedImage != null) {
+                    message.setImage(attachedImage);
+                }
+
                 try {
                     client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
                     client.sendMessage(message);
                     chatText.setText("");
+                    removeImageFromMessage();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -176,20 +208,40 @@ public class ClientGUI extends JFrame {
         if (userName == null || userName.equals("")) {
             userName = "none";
         }
-
         if (roomName == null || roomName.equals("")) {
             roomName = "none";
         }
-
         if (roomTopic == null || roomTopic.equals("")) {
             roomTopic = "none";
         }
-
-
         this.userInfoLabel.setText("<html>Your User Name: " + userName
                 + "<br>Current Room Name: " + roomName
                 + "<br>Current Room Topic: " + roomTopic + "</html>");
     }
 
+    private void addImageToMessage() {
+
+        JFileChooser fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.setFileFilter(new FileNameExtensionFilter("Images", "bmp", "jpg", "gif", "png"));
+        int returnValue = fc.showDialog(this, "Attach Image");
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+            File file = fc.getSelectedFile();
+
+            this.attachedImage = new ImageIcon(file.getAbsolutePath());
+
+            this.addRemoveImgButton.setText("Remove Image");
+            this.viewAttachedImgButton.setEnabled(true);
+
+        }
+    }
+
+    private void removeImageFromMessage() {
+        this.attachedImage = null;
+        this.addRemoveImgButton.setText("Add Image");
+        this.viewAttachedImgButton.setEnabled(false);
+    }
 
 }
