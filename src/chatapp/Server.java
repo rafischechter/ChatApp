@@ -19,7 +19,7 @@ public class Server {
             public static final int JOIN_NEW_ROOM_ERROR = 31;
             public static final int JOIN_NEW_ROOM_FULL = 32;
             public static final int JOIN_NEW_ROOM_SUCCESS = 33;
-
+        public static final int CLOSE_CONNECTION = 4;
 
     }
 
@@ -150,6 +150,20 @@ public class Server {
         }
 
         return null;
+    }
+
+    public void disconnectClient(ClientConnectionData client) {
+        //remove client from any room they are in
+        for (ChatRoom room : chatRooms) {
+            if (room.isClientInRoom(client)) {
+                room.removeClient(client);
+                break;
+            }
+        }
+
+        //remove client from list of clients
+        clients.remove(client);
+
     }
 
 }

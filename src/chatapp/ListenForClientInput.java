@@ -112,6 +112,16 @@ public class ListenForClientInput extends Thread {
                     }
                 }
             }
+            else if (actionCode == Server.ActionCodes.CLOSE_CONNECTION) {
+                server.disconnectClient(connData);
+                try {
+                    connData.sendActionCode(Server.ActionCodes.CLOSE_CONNECTION);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                connData.closeConnections();
+                this.listen = false;
+            }
 
         }
 

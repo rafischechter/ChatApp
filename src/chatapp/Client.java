@@ -144,8 +144,9 @@ public class Client{
                 else if (responseCode == Server.ActionCodes.JOIN_NEW_ROOM_FULL) {
                     JOptionPane.showMessageDialog(null, "That room is currently full", "Full Room", JOptionPane.ERROR_MESSAGE);
                 }
-
-
+            }
+            else if (actionCode == Server.ActionCodes.CLOSE_CONNECTION) {
+                this.shutDown();
             }
         }
     }
@@ -266,6 +267,20 @@ public class Client{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void shutDown() {
+        this.closeConnection();
+        clientGUI.close();
+        System.exit(0);
+    }
+
+    public void requestShutDown() {
+        try {
+            sendActionCode(Server.ActionCodes.CLOSE_CONNECTION);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
