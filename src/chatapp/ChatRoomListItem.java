@@ -15,7 +15,7 @@ public class ChatRoomListItem extends JPanel {
     private JLabel roomName;
     private JLabel roomTopic;
 
-    Client client;
+    private Client client;
 
     ChatRoomListItem(Client client, ChatRoom room) {
 
