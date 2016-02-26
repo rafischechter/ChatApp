@@ -101,21 +101,7 @@ public class ClientGUI extends JFrame {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (client.isInRoom()) {
-                    Message message = new Message();
-                    message.setText(chatText.getText());
-                    try {
-                        client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
-                        client.sendMessage(message);
-                        chatText.setText("");
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "You must be in a room to send a message", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                sendMessage();
             }
         });
 
@@ -123,18 +109,27 @@ public class ClientGUI extends JFrame {
         chatText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message message = new Message();
-                message.setText(chatText.getText());
-                try {
-                    client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
-                    client.sendMessage(message);
-                    chatText.setText("");
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                sendMessage();
             }
         });
 
+    }
+
+    private void sendMessage() {
+        if (client.isInRoom()) {
+            Message message = new Message();
+            message.setText(chatText.getText());
+            try {
+                client.sendActionCode(Server.ActionCodes.NEW_MESSAGE);
+                client.sendMessage(message);
+                chatText.setText("");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "You must be in a room to send a message", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void addNewRoom(ChatRoom room) {
