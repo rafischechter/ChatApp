@@ -70,10 +70,15 @@ public class ChatRoom implements Serializable {
     public void addMessage(Message message) {
 
         //store new message
-        messages.add(message);
+        if (message != null)
+            messages.add(message);
 
     }
 
+    /*
+        TODO would this be better just returning the list of the clients
+        TODO and the server would alert all of them about the message?
+     */
     public void alertClientsOfNewMessage(Message message) {
         for (ClientConnectionData client : clientsInRoom) {
             try {
@@ -98,17 +103,19 @@ public class ChatRoom implements Serializable {
 //        newUserNotification.setText("New user entered the room");
 //        this.addMessage(newUserNotification);
 
-        this.clientsInRoom.add(client);
-        this.numOfClientsCurrentlyInRoom++;
-
-        System.out.println("in add client - num of client in room: "  + numOfClientsCurrentlyInRoom);
-
+        if (client != null) {
+            this.clientsInRoom.add(client);
+            this.numOfClientsCurrentlyInRoom++;
+        }
     }
 
     public void removeClient(ClientConnectionData client) {
-        this.clientsInRoom.remove(client);
-        this.numOfClientsCurrentlyInRoom--;
-        System.out.println("in remove client - num of client in room: "  + numOfClientsCurrentlyInRoom);
+
+        if (isClientInRoom(client)) {
+            this.clientsInRoom.remove(client);
+            this.numOfClientsCurrentlyInRoom--;
+        }
+
     }
 
     public boolean isClientInRoom(ClientConnectionData client) {

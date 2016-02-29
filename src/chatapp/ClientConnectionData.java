@@ -21,7 +21,8 @@ public class ClientConnectionData {
      */
     public ClientConnectionData(Socket socket) {
         this.socket = socket;
-        setupStreams();
+        if (socket != null)
+            setupStreams();
         //announceClientConnected();
     }
 

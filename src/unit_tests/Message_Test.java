@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
 
 import static org.junit.Assert.*;
 
