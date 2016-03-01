@@ -1,6 +1,7 @@
 package chatapp;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -51,6 +52,7 @@ public class Message implements Serializable {
 
     public void setImage(ImageIcon image) {
         this.img = image;
+        img = resizeImage(img);
     }
 
     public File getFile() {
@@ -130,6 +132,18 @@ public class Message implements Serializable {
      */
     public boolean isEmpty() {
         return !hasText() && !hasImage() && !hasFile();
+    }
+
+    /**
+     * Resizes the image
+     *
+     * @param img
+     * @return resized img
+     */
+    public ImageIcon resizeImage(ImageIcon img) {
+        Image image = img.getImage();
+        Image newimg = image.getScaledInstance(300, 169, Image.SCALE_SMOOTH);
+        return img = new ImageIcon(newimg);
     }
 
 }
