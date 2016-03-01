@@ -202,6 +202,7 @@ public class ClientGUI extends JFrame {
 
     public void addNewMessage(Message message) {
         chatRoomMessagesPanel.addMessage(message);
+        chatRoomMessagesPanel.getVerticalScrollBar().setValue(chatRoomMessagesPanel.getVerticalScrollBar().getMaximum());
     }
 
     public void setHeaderLabel(String userName, String roomName, String roomTopic) {
