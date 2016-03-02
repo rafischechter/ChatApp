@@ -51,7 +51,10 @@ public class Message implements Serializable {
     }
 
     public void setImage(ImageIcon image) {
-        this.img = image;
+        if (image == null)
+            removeImage();
+        else
+            this.img = image;
     }
 
     public File getFile() {
@@ -66,7 +69,10 @@ public class Message implements Serializable {
     }
 
     public void setFile(File file) {
-        this.file = file;
+        if (file == null)
+            removeFile();
+        else
+            this.file = file;
     }
 
     /**
