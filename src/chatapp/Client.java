@@ -2,6 +2,7 @@ package chatapp;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Random;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
@@ -34,6 +35,9 @@ public class Client{
 
     public Client(){
         try {
+            Random random = new Random();
+            int guestNumber = random.nextInt(899999) + 100000;
+            this.user = new User("Guest " + guestNumber);
             runClient();
         } catch (IOException e) {
             e.printStackTrace();
