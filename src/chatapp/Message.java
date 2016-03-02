@@ -52,7 +52,6 @@ public class Message implements Serializable {
 
     public void setImage(ImageIcon image) {
         this.img = image;
-        img = resizeImage(img);
     }
 
     public File getFile() {
