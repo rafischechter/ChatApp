@@ -61,10 +61,20 @@ public class Client{
 
     }
 
+    /**
+     * Gets the user who has signed in
+     *
+     * @return the user who is signed in
+     */
     public User getUser() {
         return  this.user;
     }
 
+    /**
+     * Sets up the Client and related classes
+     *
+     * @throws IOException
+     */
     public void runClient() throws IOException {
         ClientLoginDialog clientLoginDialog = new ClientLoginDialog();
         user.setUserName(clientLoginDialog.getUsername());
@@ -78,7 +88,7 @@ public class Client{
     }
 
     /**
-     *
+     *  Sends information to the Server to open a new room
      */
     public void sendNewRoomInfo(String name, String topic) throws IOException {
         dataOutputStream.writeUTF(name);
@@ -105,11 +115,24 @@ public class Client{
         }
     }
 
+    /**
+     * Sends an ActionCode to the Server so it knows what action the Client wants to make
+     *
+     * @param code The Action Code being sent
+     *
+     * @throws IOException
+     */
     public void sendActionCode(int code) throws IOException {
         dataOutputStream.writeInt(code);
         dataOutputStream.flush();
     }
 
+    /**
+     * Sends a Message object to the Server (along with what room it is meant for)
+     *
+     * @param message The message being sent
+     * @throws IOException
+     */
     public void sendMessage(Message message) throws IOException {
         dataOutputStream.writeInt(currRoom.getId());
         outputToServer.writeObject(message);
@@ -140,7 +163,7 @@ public class Client{
 
             if (actionCode == Server.ActionCodes.NEW_MESSAGE) {
                     Message message = getMessageFromServer();
-                    playSound();
+                    playNewMessageSound();
                     currRoom.addMessage(message);
                     addNewMessageToGUI(message);
             }
@@ -175,24 +198,39 @@ public class Client{
         }
     }
 
+    /**
+     * Puts the user into a new ChatRoom
+     *
+     * @param room The room being entered
+     */
     private void joinNewRoom(ChatRoom room) {
         this.currRoom = room;
         this.clientGUI.setUpNewRoom(room);
     }
 
-    private void leaveCurrentRoom() {
-        this.currRoom.close();
-        this.currRoom = null;
-    }
-
+    /**
+     * Adds a new message to be shown on the GUI
+     *
+     * @param message The message being displayed
+     */
     public void addNewMessageToGUI(Message message) {
         clientGUI.addNewMessage(message);
     }
 
+    /**
+     * Adds a new room to be shown on the GUI
+     *
+     * @param room The room being displayed
+     */
     public void addNewRoomToGUI(ChatRoom room) {
         clientGUI.addNewRoom(room);
     }
 
+    /**
+     * Receives a message from the server
+     *
+     * @return The message received from the server
+     */
     public Message getMessageFromServer() {
         Message message = null;
 
@@ -207,6 +245,11 @@ public class Client{
         return message;
     }
 
+    /**
+     * Get a ChatRoom from the server
+     *
+     * @return The room being received from the server
+     */
     public ChatRoom getRoomFromServer() {
         ChatRoom room = null;
 
@@ -222,7 +265,7 @@ public class Client{
     }
 
     /**
-     * Close connections
+     * Closes the clients socket connections
      */
     private void closeConnection() {
         try {
@@ -246,11 +289,18 @@ public class Client{
         port = ccd.getServerPort();
     }
 
+    /**
+     * Checks if the client is in a room (not a specific room)
+     * @return
+     */
     public boolean isInRoom() {
         return this.currRoom != null;
     }
 
-    public void playSound() {
+    /**
+     * Plays a sound when a new message is recieved
+     */
+    public void playNewMessageSound() {
         String beep = "beep.wav";
         InputStream in;
         AudioStream audioStream = null;
@@ -263,6 +313,12 @@ public class Client{
         AudioPlayer.player.start(audioStream);
     }
 
+    /**
+     * Receives an ActionCode from the server so that the client knows what action
+     * the server wants it to perform
+     *
+     * @return The action code being received from the server
+     */
     public int getActionCodeFromServer() {
 
         int actionCode = -1;
@@ -276,6 +332,11 @@ public class Client{
         return actionCode;
     }
 
+    /**
+     * Sends a request to the server to join a room
+     *
+     * @param id The id of the room that the client is requesting to join
+     */
     public void requestToJoinRoom(int id) {
 
         //check if the user is trying to get into the room they are already in
@@ -294,12 +355,19 @@ public class Client{
         }
     }
 
+    /**
+     * Shuts down the client
+     */
     public void shutDown() {
         this.closeConnection();
         clientGUI.close();
         System.exit(0);
     }
 
+    /**
+     * Sends a request to the server to shut down. It allows the server to sever any
+     * connections so that no errors are thrown
+     */
     public void requestShutDown() {
         try {
             sendActionCode(Server.ActionCodes.CLOSE_CONNECTION);
