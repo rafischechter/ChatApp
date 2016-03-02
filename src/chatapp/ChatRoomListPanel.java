@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Created by Yitzi on 2/23/2016.
+ * The GUI Panel that displays a list of all the rooms a client can enter
  */
 public class ChatRoomListPanel extends JScrollPane {
 

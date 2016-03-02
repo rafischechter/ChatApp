@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * Created by Yitzi on 2/23/2016.
+ * The GUI for a single room that the client can join by double clicking on.
  */
 public class ChatRoomListItem extends JPanel {
 
@@ -70,6 +70,10 @@ public class ChatRoomListItem extends JPanel {
         });
     }
 
+    /**
+     * Sends the client the id of the room when they double click on it
+     * @param id The id of the room
+     */
     private void sendClientClickedRoomId(int id) {
         client.requestToJoinRoom(id);
     }
