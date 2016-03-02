@@ -94,4 +94,29 @@ public class Message_Test {
         assertEquals("test if file variable is null after it is removed", null, m.getFile());
     }
 
+    @Test
+    public void testSetImageWithNullValueRemovesTheCurrentImage() {
+        ImageIcon actualImage = new ImageIcon();
+        ImageIcon nullImage = null;
+
+        Message message = new Message();
+        message.setImage(actualImage);
+        assertSame(actualImage, message.getImage());
+        message.setImage(nullImage);
+        assertNull(message.getImage());
+    }
+
+
+    @Test
+    public void testSetFileWithNullValueRemovesTheCurrentFile() {
+        File actualFile = new File("");
+        File nullFile = null;
+
+        Message message = new Message();
+        message.setFile(actualFile);
+        assertSame(actualFile, message.getFile());
+        message.setFile(nullFile);
+        assertNull(message.getFile());
+    }
+
 }
