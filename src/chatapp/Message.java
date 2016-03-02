@@ -134,16 +134,4 @@ public class Message implements Serializable {
         return !hasText() && !hasImage() && !hasFile();
     }
 
-    /**
-     * Resizes the image
-     *
-     * @param img
-     * @return resized img
-     */
-    public ImageIcon resizeImage(ImageIcon img) {
-        Image image = img.getImage();
-        Image newimg = image.getScaledInstance(300, 169, Image.SCALE_SMOOTH);
-        return img = new ImageIcon(newimg);
-    }
-
 }
