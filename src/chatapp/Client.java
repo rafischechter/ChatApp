@@ -25,10 +25,9 @@ public class Client{
     private DataOutputStream dataOutputStream;
 
     private ClientConnectionDialog ccd;
-    private ClientGUI clientGUI;
-    private ClientLoginDialog clientLoginDialog;
 
-    private String userName;
+    private ClientGUI clientGUI;
+
     private User user;
 
     private ChatRoom currRoom = null;
@@ -67,8 +66,8 @@ public class Client{
     }
 
     public void runClient() throws IOException {
-        clientLoginDialog = new ClientLoginDialog();
-        userName = clientLoginDialog.getUsername();
+        ClientLoginDialog clientLoginDialog = new ClientLoginDialog();
+        user.setUserName(clientLoginDialog.getUsername());
         getServerAddressAndPort();
         clientGUI = new ClientGUI(this);
         clientGUI.setHeaderLabel(null, null, null);
