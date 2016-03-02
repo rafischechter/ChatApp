@@ -163,6 +163,9 @@ public class ClientGUI extends JFrame {
         this.dispose();
     }
 
+    /**
+     * Creates and sends a new Message object to the server to be added
+     */
     private void sendMessage() {
         if (client.isInRoom()) {
             if (!chatText.getText().trim().equals("") || attachedImage != null) {
@@ -191,10 +194,20 @@ public class ClientGUI extends JFrame {
         }
     }
 
+    /**
+     * Adds a room to the list of rooms the user can join
+     *
+     * @param room The room being added to the list
+     */
     public void addNewRoom(ChatRoom room) {
         roomsList.addRoom(room);
     }
 
+    /**
+     * Sets up the UI of a new room when the user joins it
+     *
+     * @param room The room being joined
+     */
     public void setUpNewRoom(ChatRoom room) {
         this.chatRoomMessagesPanel.removeAllMessages();
         for (Message m : room.getMessageList()) {
@@ -206,6 +219,10 @@ public class ClientGUI extends JFrame {
 
     }
 
+    /**
+     * Displays a new message
+     * @param message The message being displayed
+     */
     public void addNewMessage(Message message) {
         chatRoomMessagesPanel.addMessage(message);
         chatRoomMessagesPanel.getVerticalScrollBar().setValue(chatRoomMessagesPanel.getVerticalScrollBar().getMaximum());
@@ -226,6 +243,12 @@ public class ClientGUI extends JFrame {
                 + "<br>Current Room Topic: " + roomTopic + "</html>");
     }
 
+    /**
+     * Adds an image to an unsent message
+     *
+     * (technically the Message isn't created until the user hits send, this justinstantiates the image that will be
+     *  added to a new Message object later)
+     */
     private void addImageToMessage() {
 
         fc.setAcceptAllFileFilterUsed(false);
@@ -250,6 +273,9 @@ public class ClientGUI extends JFrame {
         }
     }
 
+    /**
+     * Removes an image if it was added
+     */
     private void removeImageFromMessage() {
         this.attachedImage = null;
         this.addRemoveImgButton.setText("Add Image");
