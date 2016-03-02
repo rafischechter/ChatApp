@@ -159,6 +159,9 @@ public class ClientGUI extends JFrame {
 
     }
 
+    /**
+     * gets rid of the GUI
+     */
     public void close() {
         this.dispose();
     }

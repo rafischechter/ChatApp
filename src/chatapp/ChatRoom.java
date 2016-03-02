@@ -28,6 +28,12 @@ public class ChatRoom implements Serializable {
         setDiscussionTopic(discussionTopic);
     }
 
+    /**
+     * Gets a new id for a newly created room.
+     * If there is overflow, the count resets to 1
+     *
+     * @return The id of the new ChatRoom
+     */
     public static synchronized int getNextId() {
         int retValue = nextId;
 
@@ -63,10 +69,18 @@ public class ChatRoom implements Serializable {
         return discussionTopic;
     }
 
+    /**
+     * Gets the number of clients currently in the room
+     * @return THe number of clients in the room
+     */
     public int getNumOfClientsCurrentlyInRoom() {
         return numOfClientsCurrentlyInRoom;
     }
 
+    /**
+     * Add a new Message to the room
+     * @param message The message being added
+     */
     public void addMessage(Message message) {
 
         //store new message
@@ -75,9 +89,12 @@ public class ChatRoom implements Serializable {
 
     }
 
-    /*
-        TODO would this be better just returning the list of the clients
-        TODO and the server would alert all of them about the message?
+
+    /**
+     * Send newly added Messages to all clients currently in the room
+     * @param message The new message that is being broadcast to all the clients
+     *
+     * TODO would this be better just returning the list of the clients and the server would alert all of them about the message?
      */
     public void alertClientsOfNewMessage(Message message) {
         for (ClientConnectionData client : clientsInRoom) {
@@ -90,14 +107,25 @@ public class ChatRoom implements Serializable {
         }
     }
 
+    /**
+     * Removes all the messages from the room
+     */
     public void removeAllMessages() {
         messages.clear();
     }
 
+    /**
+     * Returns all the messages in the room
+     * @return A list of all the messages
+     */
     public ArrayList<Message> getMessageList() {
         return this.messages;
     }
 
+    /**
+     * Adds a client to the room
+     * @param client The client being added
+     */
     public void addClient(ClientConnectionData client) {
 //        Message newUserNotification = new Message();
 //        newUserNotification.setText("New user entered the room");
@@ -109,6 +137,10 @@ public class ChatRoom implements Serializable {
         }
     }
 
+    /**
+     * Removes a client from the room
+     * @param client The client being removed
+     */
     public void removeClient(ClientConnectionData client) {
 
         if (isClientInRoom(client)) {
@@ -118,10 +150,19 @@ public class ChatRoom implements Serializable {
 
     }
 
+    /**
+     * Checks if a specified client is in the room
+     *
+     * @param client The client being checked
+     * @return boolean Whether or not the client is in the room
+     */
     public boolean isClientInRoom(ClientConnectionData client) {
         return clientsInRoom.indexOf(client) >= 0;
     }
 
+    /**
+     * Closes the room
+     */
     public void close() {
         this.removeAllMessages();
         this.messages = null;
