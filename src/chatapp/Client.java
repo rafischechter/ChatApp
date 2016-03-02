@@ -3,7 +3,6 @@ package chatapp;
 import java.io.*;
 import java.net.Socket;
 
-import jdk.nashorn.internal.scripts.JO;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 

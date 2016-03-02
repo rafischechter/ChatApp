@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -36,7 +37,12 @@ public class ClientGUI extends JFrame {
     private JButton sendButton = new JButton("Send");
     private JButton addRemoveImgButton = new JButton("Add Image");
     private JButton viewAttachedImgButton = new JButton("View Image");
+
     private ImageIcon attachedImage = null;
+
+    private JFileChooser fc = new JFileChooser();
+
+    private final static Dimension MAX_IMG_SIZE = new Dimension(300, 300);
 
     public ClientGUI(Client client) {
         this.client = client;
@@ -222,7 +228,6 @@ public class ClientGUI extends JFrame {
 
     private void addImageToMessage() {
 
-        JFileChooser fc = new JFileChooser();
         fc.setAcceptAllFileFilterUsed(false);
         fc.setFileFilter(new FileNameExtensionFilter("Images", "bmp", "jpeg", "tiff", "tif", "jpg", "gif", "png"));
         int returnValue = fc.showDialog(this, "Attach Image");
@@ -232,6 +237,12 @@ public class ClientGUI extends JFrame {
             File file = fc.getSelectedFile();
 
             this.attachedImage = new ImageIcon(file.getAbsolutePath());
+
+            //check if image needs to be resized
+            if (this.attachedImage.getIconWidth() > MAX_IMG_SIZE.width
+                    || this.attachedImage.getIconHeight() > MAX_IMG_SIZE.height) {
+                this.attachedImage = resizeImage(this.attachedImage);
+            }
 
             this.addRemoveImgButton.setText("Remove Image");
             this.viewAttachedImgButton.setEnabled(true);
@@ -243,6 +254,60 @@ public class ClientGUI extends JFrame {
         this.attachedImage = null;
         this.addRemoveImgButton.setText("Add Image");
         this.viewAttachedImgButton.setEnabled(false);
+    }
+
+    /**
+     * resizes an image to be within an acceptable size
+     *
+     * @param imageIcon The image to resize
+     * @return The resized image
+     */
+    private ImageIcon resizeImage(ImageIcon imageIcon) {
+
+        Dimension currImageSize = new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight());
+        Dimension newSize = getNewImageSizeMaintainingAspectRation(currImageSize, MAX_IMG_SIZE);
+
+        Image img = imageIcon.getImage();
+
+        Image resizedImage = img.getScaledInstance(newSize.width, newSize.height,  java.awt.Image.SCALE_SMOOTH);
+
+        return new ImageIcon(resizedImage);
+
+    }
+
+    /**
+     * get a new size for resizing an image that maintains its aspect ratio
+     *
+     * @param imageSize The size of the original image
+     * @param maxAllowedSize the max size the image is allowed to be
+     *
+     * @return the new size with the aspect ration maintained
+     */
+    private Dimension getNewImageSizeMaintainingAspectRation(Dimension imageSize, Dimension maxAllowedSize) {
+        int original_width = imageSize.width;
+        int original_height = imageSize.height;
+        int bound_width = maxAllowedSize.width;
+        int bound_height = maxAllowedSize.height;
+        int new_width = original_width;
+        int new_height = original_height;
+
+        // first check if we need to scale width
+        if (original_width > bound_width) {
+            //scale width to fit
+            new_width = bound_width;
+            //scale height to maintain aspect ratio
+            new_height = (new_width * original_height) / original_width;
+        }
+
+        // then check if we need to scale even with the new height
+        if (new_height > bound_height) {
+            //scale height to fit instead
+            new_height = bound_height;
+            //scale width to maintain aspect ratio
+            new_width = (new_height * original_width) / original_height;
+        }
+
+        return new Dimension(new_width, new_height);
     }
 
 }
