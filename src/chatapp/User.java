@@ -19,6 +19,12 @@ public class User implements Serializable{
         this.userName = screenName;
     }
 
+    public User(String userName, String password, String screenName) {
+        this.userName = screenName;
+        this.password = password;
+        this.screenName = screenName;
+    }
+
     public User(int id, String screenName, String email, String userName, String password) {
         this.userID = id;
         this.screenName = screenName;
