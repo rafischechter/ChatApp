@@ -1,6 +1,8 @@
 package chatapp;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by rafi on 2/12/2016.
@@ -9,7 +11,10 @@ public class ClientLoginDialog {
 
     JTextField username = new JTextField();
     JTextField password = new JPasswordField();
-    Object[] message = {"Username:", username, "Password:", password};
+    JButton signUp = new JButton("Sign up");
+    Object[] message = {"Username:", username, "Password:", password, signUp};
+    SignUpDialog signUpDialog;
+
 
     /**
      * Constructor for the login
@@ -23,7 +28,19 @@ public class ClientLoginDialog {
      * Method to create the input dialog
      */
     private void CreateAuthenticationDialog() {
+
+        signUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                signUpDialog = new SignUpDialog();
+
+                signUpDialog.createUser(signUpDialog.getUsername(),
+                        signUpDialog.getPassword(), signUpDialog.getScreenName());
+            }
+        });
+
         JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION);
+
     }
 
     /**
@@ -61,4 +78,6 @@ public class ClientLoginDialog {
         */
         return accessGranted;
     }
+
+
 }
