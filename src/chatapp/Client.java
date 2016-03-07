@@ -312,7 +312,7 @@ public class Client{
      * Plays a sound when a new message is recieved
      */
     public void playNewMessageSound() {
-        String beep = "beep.wav";
+        String beep = "audio/beep.wav";
         InputStream in;
         AudioStream audioStream = null;
         try {
