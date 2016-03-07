@@ -12,6 +12,7 @@ public class ChatRoomListItem extends JPanel {
 
     private ChatRoom room;
 
+    private JLabel iconsLabel = new JLabel();
     private JLabel roomName;
     private JLabel roomTopic;
 
@@ -27,10 +28,20 @@ public class ChatRoomListItem extends JPanel {
         roomName = new JLabel("Name: " + this.room.getRoomName());
         roomTopic = new JLabel("Topic:  " + this.room.getDiscussionTopic());
 
-        this.setPreferredSize(new Dimension(180, 40));
-        this.setMaximumSize(new Dimension(180, 40));
-        this.setMinimumSize(new Dimension(180, 40));
+        int width = 180;
+        int height = 40;
+        if (room.isPasswordProtected())
+            height += 20;
 
+        this.setPreferredSize(new Dimension(width, height));
+        this.setMaximumSize(new Dimension(width, height));
+        this.setMinimumSize(new Dimension(width, height));
+
+
+        if (room.isPasswordProtected()) {
+            iconsLabel.setIcon(new ImageIcon("images/lock_icon.png"));
+            this.add(iconsLabel);
+        }
         this.add(roomName);
         this.add(roomTopic);
 
