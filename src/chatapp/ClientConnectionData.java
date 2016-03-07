@@ -43,11 +43,23 @@ public class ClientConnectionData {
     }
 
     public int getRoomIdForJoinRequest() throws IOException {
-        int id = -1;
+        int id;
 
         id = dataInput.readInt();
 
         return id;
+    }
+
+    public String getPassword() {
+        String pw = "";
+
+        try {
+            pw = dataInput.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return pw;
     }
 
     /**

@@ -103,7 +103,7 @@ public class ClientGUI extends JFrame {
 
                 try {
                     client.sendActionCode(Server.ActionCodes.NEW_CHATROOM);
-                    client.sendNewRoomInfo(dialog.getRoomName(), dialog.getRoomTopic());
+                    client.sendNewRoomInfo(dialog.getRoomName(), dialog.getRoomTopic(), dialog.getRoomPassword());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

@@ -46,7 +46,10 @@ public class ListenForClientInput extends Thread {
                 int id = ChatRoom.getNextId();
                 ChatRoom room = null;
                 try {
-                    room = new ChatRoom(id, connData.getNewRoomName(), connData.getNewRoomTopic());
+                    String roomName = connData.getNewRoomName().trim();
+                    String roomTopic = connData.getNewRoomTopic().trim();
+                    String roomPassword = connData.getPassword().trim();
+                    room = new ChatRoom(id, roomName, roomTopic, roomPassword);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -67,10 +70,6 @@ public class ListenForClientInput extends Thread {
                 //get the room trying to be entered
                 ChatRoom room = server.getRoomById(id);
 
-                //System.out.println("cur in room: " + room.getNumOfClientsCurrentlyInRoom());
-                //System.out.println("room max: " + room.MAX_CLIENTS_ALLOWED);
-                //System.out.println("let new client in? " + (room.getNumOfClientsCurrentlyInRoom() < room.MAX_CLIENTS_ALLOWED));
-
                 try {
                     connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
                 } catch (IOException e) {
@@ -78,7 +77,7 @@ public class ListenForClientInput extends Thread {
                 }
 
                 //ensure the room exists
-                if (room == null) {
+                if (!roomExists(room)) {
 
                     //let client know room doesnt exist
                     try {
@@ -89,6 +88,62 @@ public class ListenForClientInput extends Thread {
 
                     continue;
 
+                }
+                //check if the room is full
+                else if (room.getNumOfClientsCurrentlyInRoom() >= room.MAX_CLIENTS_ALLOWED) {
+                    // let client know room is full
+                    try {
+                        connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM_FULL);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    continue;
+                }
+                //if not remove the user from their old room, add the user to the new room and then send the room to them
+                else {
+                    server.addClientToNewRoom(connData, room.getId());
+                    try {
+                        connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM_SUCCESS);
+                        connData.sendRoom(room);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            else if (actionCode == Server.ActionCodes.JOIN_NEW_PASSWORD_PROTECTED_ROOM) {
+                int roomId = connData.getRoomId();
+                String password = connData.getPassword();
+
+                ChatRoom room = server.getRoomById(roomId);
+
+                try {
+                    connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //ensure the room exists
+                if (!roomExists(room)) {
+
+                    //let client know room doesnt exist
+                    try {
+                        connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM_ERROR);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    continue;
+
+                }
+                //check if the password is not a match
+                else if (!room.getPassword().equals(password)) {
+                    System.out.println("client entered: " + password + ", but password was: " + room.getPassword());
+                    try {
+                        connData.sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM_PASSWORD_INCORRECT);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 //check if the room is full
                 else if (room.getNumOfClientsCurrentlyInRoom() >= room.MAX_CLIENTS_ALLOWED) {
@@ -125,6 +180,10 @@ public class ListenForClientInput extends Thread {
 
         }
 
+    }
+
+    private boolean roomExists(ChatRoom room) {
+        return room != null;
     }
 }
 

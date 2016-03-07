@@ -16,6 +16,7 @@ public class ChatRoom implements Serializable {
     private int id;
     private String roomName;
     private String discussionTopic;
+    private String password = null;
 
     private int numOfClientsCurrentlyInRoom = 0;
     transient private ArrayList<ClientConnectionData> clientsInRoom = new ArrayList<ClientConnectionData>();
@@ -26,6 +27,13 @@ public class ChatRoom implements Serializable {
         setId(id);
         setRoomName(roomName);
         setDiscussionTopic(discussionTopic);
+    }
+
+    public ChatRoom(int id, String roomName, String discussionTopic, String password) {
+        setId(id);
+        setRoomName(roomName);
+        setDiscussionTopic(discussionTopic);
+        setPassword(password);
     }
 
     /**
@@ -67,6 +75,14 @@ public class ChatRoom implements Serializable {
 
     public String getDiscussionTopic() {
         return discussionTopic;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 
     /**
@@ -158,6 +174,29 @@ public class ChatRoom implements Serializable {
      */
     public boolean isClientInRoom(ClientConnectionData client) {
         return clientsInRoom.indexOf(client) >= 0;
+    }
+
+    /**
+     * Checks if the room requires a password to enter
+     *
+     * @return Whether or not the room needs a password
+     */
+    public boolean isPasswordProtected() {
+
+        if (this.getPassword() == null)
+            return false;
+
+        else if ( this.getPassword().trim().length() <= 0)
+            return  false;
+
+        return true;
+    }
+
+    /**
+     * Removes the password required to enter the room
+     */
+    public void removePassword() {
+        this.setPassword(null);
     }
 
     /**

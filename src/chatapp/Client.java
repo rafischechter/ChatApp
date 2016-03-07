@@ -90,10 +90,17 @@ public class Client{
     /**
      *  Sends information to the Server to open a new room
      */
-    public void sendNewRoomInfo(String name, String topic) throws IOException {
+    public void sendNewRoomInfo(String name, String topic, String password) throws IOException {
         dataOutputStream.writeUTF(name);
         dataOutputStream.flush();
         dataOutputStream.writeUTF(topic);
+        dataOutputStream.flush();
+
+        if (password != null)
+            dataOutputStream.writeUTF(password);
+        else
+            dataOutputStream.writeUTF(" ");
+
         dataOutputStream.flush();
     }
 
@@ -160,6 +167,7 @@ public class Client{
 
         while (true) {
             actionCode = getActionCodeFromServer();
+            System.out.println("Client recieved action code: " + actionCode);
 
             if (actionCode == Server.ActionCodes.NEW_MESSAGE) {
                     Message message = getMessageFromServer();
@@ -190,6 +198,9 @@ public class Client{
                 }
                 else if (responseCode == Server.ActionCodes.JOIN_NEW_ROOM_FULL) {
                     JOptionPane.showMessageDialog(null, "That room is currently full", "Full Room", JOptionPane.ERROR_MESSAGE);
+                }
+                else if (responseCode == Server.ActionCodes.JOIN_NEW_ROOM_PASSWORD_INCORRECT) {
+                    JOptionPane.showMessageDialog(null, "The password you entered was incorrect", "Incorrect Password", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else if (actionCode == Server.ActionCodes.CLOSE_CONNECTION) {
@@ -337,7 +348,7 @@ public class Client{
      *
      * @param id The id of the room that the client is requesting to join
      */
-    public void requestToJoinRoom(int id) {
+    public void requestToJoinRoom(int id, boolean hasPassword) {
 
         //check if the user is trying to get into the room they are already in
         if (currRoom != null && currRoom.getId() == id) {
@@ -345,10 +356,20 @@ public class Client{
         }
         else {
             //send the server a request to join the room
-
             try {
-                sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
-                dataOutputStream.writeInt(id);
+                if(hasPassword){
+                    PasswordRequestDialog dialog = new PasswordRequestDialog();
+                    if (dialog.getResult() == JOptionPane.OK_OPTION) {
+                        String password = dialog.getPassword();
+                        sendActionCode(Server.ActionCodes.JOIN_NEW_PASSWORD_PROTECTED_ROOM);
+                        dataOutputStream.writeInt(id);
+                        dataOutputStream.writeUTF(password);
+                    }
+                }
+                else {
+                    sendActionCode(Server.ActionCodes.JOIN_NEW_ROOM);
+                    dataOutputStream.writeInt(id);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

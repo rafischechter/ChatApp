@@ -43,7 +43,7 @@ public class ChatRoomListItem extends JPanel {
                 //check if it is a double click
                 if (e.getClickCount() == 2) {
                     //send the user the id of the room so it can request to join
-                    sendClientClickedRoomId(ChatRoomListItem.this.room.getId());
+                    sendClientClickedRoomId();
                 }
 
             }
@@ -71,10 +71,10 @@ public class ChatRoomListItem extends JPanel {
     }
 
     /**
-     * Sends the client the id of the room when they double click on it
-     * @param id The id of the room
+     * Sends the client the id of the room and whether or not it requires a password
+     * when they double click on it
      */
-    private void sendClientClickedRoomId(int id) {
-        client.requestToJoinRoom(id);
+    private void sendClientClickedRoomId() {
+        client.requestToJoinRoom(this.room.getId(), this.room.isPasswordProtected());
     }
 }

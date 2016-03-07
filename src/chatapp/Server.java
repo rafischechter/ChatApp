@@ -19,6 +19,9 @@ public class Server {
             public static final int JOIN_NEW_ROOM_ERROR = 31;
             public static final int JOIN_NEW_ROOM_FULL = 32;
             public static final int JOIN_NEW_ROOM_SUCCESS = 33;
+        public static final int JOIN_NEW_PASSWORD_PROTECTED_ROOM = 34;
+            public static final int JOIN_NEW_ROOM_PASSWORD_CORRECT= 35;
+            public static final int JOIN_NEW_ROOM_PASSWORD_INCORRECT= 36;
         public static final int CLOSE_CONNECTION = 4;
 
     }
